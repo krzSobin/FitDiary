@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+    <div class="col-md-8">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Kategoria</th>
+                    <th>Białko/100g</th>
+                    <th>Tłuszcze/100g</th>
+                    <th>Węglowodany/100g</th>
+                    <th>W tym cukry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="prod in products">
+                    <td>
+                        {{ prod.name }}
+                    </td>
+                    <td>
+                        {{ prod.category }}
+                    </td>
+                    <td>
+                        {{ prod.proteinsPer100g }}
+                    </td>
+                    <td>
+                        {{ prod.fatsPer100g }}
+                    </td>
+                    <td>
+                        {{ prod.carboPer100g }}
+                    </td>
+                    <td>
+                        {{ prod.sugarPer100g }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+</div>
