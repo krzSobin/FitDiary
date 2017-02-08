@@ -9,9 +9,11 @@ using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
 using FitDiary.Contracts.DTOs;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 namespace FitDiary.Api.Controllers
 {
+    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/foodProducts")]
     public class FoodProductsController : ApiController
     {
