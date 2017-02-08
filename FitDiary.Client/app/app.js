@@ -1,19 +1,34 @@
-var app = angular.module('App', ['ngRoute']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap']);
 
-app.config(function($routeProvider){
-  $routeProvider.when("/home", {
-      controller: "homeController",
-      templateUrl: "/app/views/home.html"
-  });
+app.config(function ($routeProvider) {
 
-  $routeProvider.when("/products", {
-      controller: "foodProductsController",
-      templateUrl: "/app/views/foodProducts.html"
-  });
+    $routeProvider.when("/home", {
+        controller: "homeController",
+        templateUrl: "/app/views/home.html"
+    });
 
-  $routeProvider.otherwise({ redirectTo: "/home" });
-})
-.controller('ngAppDemoController', function($scope){
-  $scope.a = 1;
-  $scope.b = 2;
+    $routeProvider.when("/login", {
+        controller: "loginController",
+        templateUrl: "/app/views/login.html"
+    });
+
+    $routeProvider.when("/signup", {
+        controller: "signupController",
+        templateUrl: "/app/views/signup.html"
+    });
+
+    $routeProvider.when("/foodProducts", {
+        controller: "foodProductController",
+        templateUrl: "/app/views/foodProducts.html"
+    });
+
+    $routeProvider.otherwise({ redirectTo: "/home" });
+});
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
+
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
 });

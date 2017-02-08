@@ -7,17 +7,31 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
+using System.Web.Http.Cors;
+using FitDiary.Contracts.DTOs;
+using System.Collections.Generic;
 
 namespace FitDiary.Api.Controllers
 {
+    [EnableCors("*", "*", "*")]
+    [RoutePrefix("api/foodCategories")]
     public class FoodProductCategoriesController : ApiController
     {
         private FitDiaryApiContext db = new FitDiaryApiContext();
 
-        // GET: api/FoodProductCategories
-        public IQueryable<FoodProductCategory> GetFoodProductCategories()
+        // GET: api/foodCategories
+        [HttpGet]
+        [Route("")]
+        public IEnumerable<FoodProductCategoryDTO> GetFoodProductCategories()
         {
-            return db.FoodProductCategories;
+            var categories = db.FoodProductCategories.Select(c =>
+            new FoodProductCategoryDTO
+            {
+                Id = c.Id,
+                Name = c.Name
+            });
+
+            return categories.ToList<FoodProductCategoryDTO>();
         }
 
         // GET: api/FoodProductCategories/5

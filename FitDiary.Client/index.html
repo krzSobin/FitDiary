@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html data-ng-app="AngularAuthApp">
 <head>
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
-    <title>Fit Diary</title>
+    <title>AngularJS Authentication</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="content/css/site.css" rel="stylesheet" />
     <link href="content/css/loading-bar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
-<body ng-app="App">
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="indexController">
         <div class="container">
             <div class="navbar-header">
                 <button class="btn btn-success navbar-toggle" data-ng-click="navbarExpanded = !navbarExpanded">
@@ -20,7 +21,18 @@
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
                     <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome {{authentication.userName}}</a></li>
-                    <li><a href="#/products">Produkty</a></li>
+                    <li class="dropdown">
+                        <div class="btn-group" uib-dropdown is-open="status.isopen">
+                            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                                Żywienie <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem"><a href="#/foodProducts">Zobacz produkty</a></li>
+                                <li class="divider"></li>
+                                <li role="menuitem"><a href="#/foodProducts/new">Dodaj produkty</a></li>
+                            </ul>
+                        </div>
+                    </li>
                     <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Logout</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a href="#/login">Login</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a href="#/signup">Sign Up</a></li>
@@ -31,10 +43,7 @@
     <div class="jumbotron">
         <div class="container">
             <div class="page-header text-center">
-              <p>
-                  I can add: {{1}} + {{1}} =  {{ 1+1 }}
-              </p>
-                <h1>Twój osobisty fit dziennik</h1>
+                <h1>AngularJS Authentication</h1>
             </div>
             <p>This single page application is built using AngularJS, it is using OAuth bearer token authentication, ASP.NET Web API 2, OWIN middleware, and ASP.NET Identity to generate tokens and register users.</p>
         </div>
@@ -48,26 +57,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="text-muted">Created by K.S.</p>
+                    <p class="text-muted">Created by Taiseer Joudeh. Twitter: <a target="_blank" href="http://twitter.com/tjoudeh">@tjoudeh</a></p>
                 </div>
                 <div class="col-md-6">
+                    <p class="text-muted">Taiseer Joudeh Blog: <a target="_blank" href="http://bitoftech.net">bitoftech.net</a></p>
                 </div>
             </div>
         </div>
     </div>
     <!-- 3rd party libraries -->
-
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/angular-route.min.js"></script>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-route.js"></script>
     <script src="scripts/angular-local-storage.min.js"></script>
     <script src="scripts/loading-bar.min.js"></script>
+    <script src="scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+
     <!-- Load app main script -->
     <script src="app/app.js"></script>
     <!-- Load services -->
-    <script src="app/services/foodProductsService.js"></script>
-
+    <script src="app/services/authInterceptorService.js"></script>
+    <script src="app/services/authService.js"></script>
+    <script src="app/services/travelsService.js"></script>
     <!-- Load controllers -->
-    <script src="app/controllers/foodProductsController.js"></script>
-
+    <script src="app/controllers/indexController.js"></script>
+    <script src="app/controllers/homeController.js"></script>
+    <script src="app/controllers/loginController.js"></script>
+    <script src="app/controllers/signupController.js"></script>
+    <script src="app/controllers/foodProductController.js"></script>
 </body>
 </html>

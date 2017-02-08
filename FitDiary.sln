@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Api", "FitDiary.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Contracts", "FitDiary.Contracts\FitDiary.Contracts.csproj", "{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelGuru.Web", "..\Visual Studio 2015\Projects\TravelGuru.Web\TravelGuru.Web\TravelGuru.Web.csproj", "{42F5E448-567D-46C6-8931-C4626371BBE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Client", "FitDiary.Client\FitDiary.Client.csproj", "{FBCA1600-E7EB-45E4-A639-4EB78CC33009}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F5E448-567D-46C6-8931-C4626371BBE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F5E448-567D-46C6-8931-C4626371BBE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F5E448-567D-46C6-8931-C4626371BBE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F5E448-567D-46C6-8931-C4626371BBE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
