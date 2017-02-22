@@ -35,6 +35,8 @@ namespace FitDiary.Api.Controllers
         }
 
         // GET: api/FoodProductCategories/5
+        [HttpGet]
+        [Route("{id:int}", Name = "GetFoodCategoryById")]
         [ResponseType(typeof(FoodProductCategory))]
         public async Task<IHttpActionResult> GetFoodProductCategory(int id)
         {
@@ -48,6 +50,8 @@ namespace FitDiary.Api.Controllers
         }
 
         // PUT: api/FoodProductCategories/5
+        [HttpPut]
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutFoodProductCategory(int id, FoodProductCategory foodProductCategory)
         {
@@ -83,6 +87,8 @@ namespace FitDiary.Api.Controllers
         }
 
         // POST: api/FoodProductCategories
+        [HttpPost]
+        [Route("")]
         [ResponseType(typeof(FoodProductCategory))]
         public async Task<IHttpActionResult> PostFoodProductCategory(FoodProductCategory foodProductCategory)
         {
@@ -94,10 +100,12 @@ namespace FitDiary.Api.Controllers
             db.FoodProductCategories.Add(foodProductCategory);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = foodProductCategory.Id }, foodProductCategory);
+            return CreatedAtRoute("GetFoodCategoryById", new { id = foodProductCategory.Id }, foodProductCategory);
         }
 
         // DELETE: api/FoodProductCategories/5
+        [HttpDelete]
+        [Route("{id:int}")]
         [ResponseType(typeof(FoodProductCategory))]
         public async Task<IHttpActionResult> DeleteFoodProductCategory(int id)
         {
