@@ -36,19 +36,19 @@ namespace FitDiary.Api.Migrations
                 new FoodProductCategory {Name = "Warzywa" },
                 new FoodProductCategory {Name = "Nabia³" }
             };
-            fCategories.ForEach(f => context.FoodProductCategories.Add(f));
+            fCategories.ForEach(f => context.FoodProductCategories.AddOrUpdate(f));
             context.SaveChanges();
 
             var foodProducts = new List<FoodProduct>
             {
-                new FoodProduct {Name = "Pierœ z kurczaka", ProteinsPer100g = 21, FatsPer100g = 8, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1},
-                new FoodProduct {Name = "Pierœ z indyka", ProteinsPer100g = 21, FatsPer100g = 8, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1},
-                new FoodProduct {Name = "Udko z kurczaka", ProteinsPer100g = 18, FatsPer100g = 12, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1},
-                new FoodProduct {Name = "Kasza gryczana", ProteinsPer100g = 2, FatsPer100g = 6, CarboPer100g = 76, SugarPer100g = 0.5, CategoryId = 2},
-                new FoodProduct {Name = "Ry¿ bia³y", ProteinsPer100g = 3, FatsPer100g = 4, CarboPer100g = 77, SugarPer100g = 0.5, CategoryId = 2},
-                new FoodProduct {Name = "Ziemniaki", ProteinsPer100g = 4, FatsPer100g = 3, CarboPer100g = 65, SugarPer100g = 5, CategoryId = 2}
+                new FoodProduct {Name = "Pierœ z kurczaka", ProteinsPer100g = 21, FatsPer100g = 8, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1, KCalPer100g = 300},
+                new FoodProduct {Name = "Pierœ z indyka", ProteinsPer100g = 21, FatsPer100g = 8, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1, KCalPer100g = 300},
+                new FoodProduct {Name = "Udko z kurczaka", ProteinsPer100g = 18, FatsPer100g = 12, CarboPer100g = 5, SugarPer100g = 0.5, CategoryId = 1, KCalPer100g = 350},
+                new FoodProduct {Name = "Kasza gryczana", ProteinsPer100g = 2, FatsPer100g = 6, CarboPer100g = 76, SugarPer100g = 0.5, CategoryId = 2, KCalPer100g = 400},
+                new FoodProduct {Name = "Ry¿ bia³y", ProteinsPer100g = 3, FatsPer100g = 4, CarboPer100g = 77, SugarPer100g = 0.5, CategoryId = 2, KCalPer100g = 500},
+                new FoodProduct {Name = "Ziemniaki", ProteinsPer100g = 4, FatsPer100g = 3, CarboPer100g = 65, SugarPer100g = 5, CategoryId = 2, KCalPer100g = 400}
             };
-            foodProducts.ForEach(f => context.FoodProducts.Add(f));
+            foodProducts.ForEach(f => context.FoodProducts.AddOrUpdate(f));
             context.SaveChanges();
 
             var meals = new List<Meal>
@@ -57,7 +57,7 @@ namespace FitDiary.Api.Migrations
                 new Meal {Date = DateTime.UtcNow },
                 new Meal {Date = DateTime.UtcNow }
             };
-            meals.ForEach(m => context.Meals.Add(m));
+            meals.ForEach(m => context.Meals.AddOrUpdate(m));
             context.SaveChanges();
 
             var prodInMeals = new List<ProductInMeal>
@@ -67,7 +67,7 @@ namespace FitDiary.Api.Migrations
                 new ProductInMeal { ProductId = 2, MealId = 2, AmountInGrams = 350},
                 new ProductInMeal { ProductId = 5, MealId = 2, AmountInGrams = 120}
             };
-            prodInMeals.ForEach(p => context.ProductsInMeal.Add(p));
+            prodInMeals.ForEach(p => context.ProductsInMeal.AddOrUpdate(p));
             context.SaveChanges();
         }
     }

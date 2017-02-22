@@ -14,6 +14,7 @@ namespace FitDiary.Contracts.DTOs
         public double FatsPer100g { get; set; }
         public double CarboPer100g { get; set; }
         public double SugarPer100g { get; set; }
+        public double KCalPer100g { get; set; }
         public string Category { get; set; }
     }
 }

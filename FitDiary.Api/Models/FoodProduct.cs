@@ -14,6 +14,7 @@ namespace FitDiary.Api.Models
         public double FatsPer100g { get; set; }
         public double CarboPer100g { get; set; }
         public double SugarPer100g { get; set; }
+        public double KCalPer100g { get; set; }
 
         public int CategoryId { get; set; }
         public FoodProductCategory Category { get; set; }

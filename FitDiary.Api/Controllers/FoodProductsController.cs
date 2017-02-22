@@ -33,14 +33,15 @@ namespace FitDiary.Api.Controllers
                 CarboPer100g = product.CarboPer100g,
                 ProteinsPer100g = product.ProteinsPer100g,
                 FatsPer100g = product.FatsPer100g,
-                SugarPer100g = product.SugarPer100g
+                SugarPer100g = product.SugarPer100g,
+                KCalPer100g = product.KCalPer100g
             });
             var a = products.ToList<FoodProductDTO>();
             return a;
         }
 
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("{id:int}", Name="GetFoodProductById")]
         [ResponseType(typeof(FoodProduct))]
         public async Task<IHttpActionResult> GetFoodProduct(int id)
         {
@@ -53,7 +54,8 @@ namespace FitDiary.Api.Controllers
                 CarboPer100g = p.CarboPer100g,
                 ProteinsPer100g = p.ProteinsPer100g,
                 FatsPer100g = p.FatsPer100g,
-                SugarPer100g = p.SugarPer100g
+                SugarPer100g = p.SugarPer100g,
+                KCalPer100g = p.KCalPer100g
             }).SingleOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
@@ -115,7 +117,7 @@ namespace FitDiary.Api.Controllers
             db.FoodProducts.Add(foodProduct);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = foodProduct.Id }, foodProduct);
+            return CreatedAtRoute("GetFoodProductById", new { id = foodProduct.Id }, foodProduct);
         }
 
         // DELETE: api/FoodProducts/5
