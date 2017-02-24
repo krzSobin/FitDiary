@@ -13,8 +13,13 @@ namespace FitDiary.Api
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes
+            config.Formatters.JsonFormatter
+                .SupportedMediaTypes
                 .Add(new MediaTypeHeaderValue("text/html"));
+
+            config.Formatters.JsonFormatter
+            .SerializerSettings
+            .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }

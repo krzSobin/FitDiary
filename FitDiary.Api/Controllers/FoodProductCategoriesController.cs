@@ -10,6 +10,7 @@ using FitDiary.Api.DAL;
 using System.Web.Http.Cors;
 using FitDiary.Contracts.DTOs;
 using System.Collections.Generic;
+using FitDiary.Contracts.DTOs.Diet;
 
 namespace FitDiary.Api.Controllers
 {

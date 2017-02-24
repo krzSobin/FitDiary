@@ -136,6 +136,14 @@
     <Compile Include="Migrations\201702221339422_kcalAmount.Designer.cs">
       <DependentUpon>201702221339422_kcalAmount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702240910079_test.cs" />
+    <Compile Include="Migrations\201702240910079_test.Designer.cs">
+      <DependentUpon>201702240910079_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702241000204_test2.cs" />
+    <Compile Include="Migrations\201702241000204_test2.Designer.cs">
+      <DependentUpon>201702241000204_test2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Excercise.cs" />
     <Compile Include="Models\ExcerciseCategory.cs" />
@@ -166,6 +174,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702221339422_kcalAmount.resx">
       <DependentUpon>201702221339422_kcalAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240910079_test.resx">
+      <DependentUpon>201702240910079_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702241000204_test2.resx">
+      <DependentUpon>201702241000204_test2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,17 +7,23 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
+using System.Web.Http.Cors;
+using System.Collections.Generic;
 
 namespace FitDiary.Api.Controllers
 {
+    [EnableCors("*", "*", "*")]
+    [RoutePrefix("api/meals")]
     public class MealsController : ApiController
     {
         private FitDiaryApiContext db = new FitDiaryApiContext();
 
         // GET: api/Meals
-        public IQueryable<Meal> GetMeals()
+        [HttpGet]
+        [Route("")]
+        public IEnumerable<Meal> GetMeals()
         {
-            return db.Meals;
+            return db.Meals.ToList();
         }
 
         // GET: api/Meals/5
