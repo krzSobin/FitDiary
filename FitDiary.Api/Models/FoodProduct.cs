@@ -19,6 +19,6 @@ namespace FitDiary.Api.Models
         public int CategoryId { get; set; }
         public FoodProductCategory Category { get; set; }
 
-        public virtual ICollection<ProductInMeal> Products { get; set; }
+        //public virtual ICollection<ProductInMeal> Products { get; set; }
     }
 }

@@ -1,0 +1,68 @@
+﻿<div class="row">
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+    <div class="col-md-8">
+        {{meals}}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Data</th>
+                    <th>TotalKcal</th>
+                    <th>TotalProtein</th>
+                    <th>TotalFat</th>
+                    <th>TotalCarb</th>
+                    <th>TotalSugar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="meal in meals">
+                    <td>
+                        {{ meal.Id }}
+                    </td>
+                    <td>
+                        {{ meal.Date }}
+                    </td>
+                    <td>
+                        {{ meal.TotalKcal }}
+                    </td>
+                    <td>
+                        {{ meal.TotalProtein }}
+                    </td>
+                    <td>
+                        {{ meal.TotalFat }}
+                    </td>
+                    <td>
+                        {{ meal.TotalCarb }}
+                    </td>
+                    <td>
+                        {{ meal.TotalSugar }}
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <select ng-model="selectedTestAccount"
+                ng-options="item.Id as item.Name for item in testAccounts">
+            <option value="">Select Account</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+</div>
+
+
+<div class="row meal-row" data-ng-repeat="meal in meals">
+    <div class="col-md-8">
+        <h4>{{ meal.TotalKcal }}</h4>
+        <h4>{{ meal.TotalProtein }}</h4>
+        <p>{{ meal.TotalFat }}</p>
+        <p>{{ meal.TotalCarb }}</p>
+        <p>{{ meal.TotalSugar }}</p>
+    </div>
+</div>

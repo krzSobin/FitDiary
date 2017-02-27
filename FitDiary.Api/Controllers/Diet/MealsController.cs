@@ -9,6 +9,7 @@ using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
+using FitDiary.Contracts.DTOs.Diet;
 
 namespace FitDiary.Api.Controllers
 {
@@ -21,12 +22,35 @@ namespace FitDiary.Api.Controllers
         // GET: api/Meals
         [HttpGet]
         [Route("")]
-        public IEnumerable<Meal> GetMeals()
+        public IEnumerable<MealDTO> GetMeals()
         {
-            return db.Meals.ToList();
+            var meals = db.Meals.Select(m =>
+            new MealDTO
+            {
+                Id = m.Id,
+                Date = m.Date,
+                TotalKcal = m.TotalKcal,
+                TotalProtein = m.TotalProtein,
+                TotalFat = m.TotalFat,
+                TotalCarb = m.TotalCarb,
+                TotalSugar = m.TotalSugar
+            });
+            var mealsList = meals.ToList<MealDTO>();
+
+            return mealsList;
+        }
+
+        // GET: api/Meals
+        [HttpGet]
+        [Route("test")]
+        public IEnumerable<Meal> GetMealsTest()
+        {
+            return db.Meals.Include("Products.Product");
         }
 
         // GET: api/Meals/5
+        [HttpGet]
+        [Route("{id:int}", Name = "GetMealById")]
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> GetMeal(int id)
         {
@@ -75,6 +99,8 @@ namespace FitDiary.Api.Controllers
         }
 
         // POST: api/Meals
+        [HttpPost]
+        [Route("")]
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> PostMeal(Meal meal)
         {
@@ -84,9 +110,14 @@ namespace FitDiary.Api.Controllers
             }
 
             db.Meals.Add(meal);
+
+            foreach (ProductInMeal productsInMeal in meal.Products)
+            {
+                db.ProductsInMeal.Add(productsInMeal);
+            }
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = meal.Id }, meal);
+            return CreatedAtRoute("GetMealById", new { id = meal.Id }, meal);
         }
 
         // DELETE: api/Meals/5

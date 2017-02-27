@@ -14,6 +14,7 @@ namespace FitDiary.Api.DAL
     
         public FitDiaryApiContext() : base("name=FitDiaryApiContext")
         {
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Meal> Meals { get; set; }

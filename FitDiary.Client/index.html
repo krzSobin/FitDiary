@@ -21,6 +21,8 @@
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
                     <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome {{authentication.userName}}</a></li>
+                    <li><a href="#/meals">Posiłki</a></li>
+                    <li><a href="#/foodProducts">Lista produktów</a></li>
                     <li class="dropdown">
                         <div class="btn-group" uib-dropdown is-open="status.isopen">
                             <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
@@ -45,6 +47,7 @@
             <div class="page-header text-center">
                 <h1>AngularJS Authentication</h1>
             </div>
+            {{2 + 2}}
             <p>This single page application is built using AngularJS, it is using OAuth bearer token authentication, ASP.NET Web API 2, OWIN middleware, and ASP.NET Identity to generate tokens and register users.</p>
         </div>
     </div>
@@ -84,5 +87,6 @@
     <script src="app/controllers/loginController.js"></script>
     <script src="app/controllers/signupController.js"></script>
     <script src="app/controllers/foodProductController.js"></script>
+    <script src="app/controllers/mealController.js"></script>
 </body>
 </html>

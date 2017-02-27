@@ -64,8 +64,8 @@ namespace FitDiary.Api.Migrations
             {
                 new ProductInMeal { ProductId = 1, MealId = 1, AmountInGrams = 400},
                 new ProductInMeal { ProductId = 4, MealId = 1, AmountInGrams = 100},
-                new ProductInMeal { ProductId = 2, MealId = 2, AmountInGrams = 350},
-                new ProductInMeal { ProductId = 5, MealId = 2, AmountInGrams = 120}
+                new ProductInMeal { ProductId = 2, MealId = 4, AmountInGrams = 350},
+                new ProductInMeal { ProductId = 5, MealId = 4, AmountInGrams = 120}
             };
             prodInMeals.ForEach(p => context.ProductsInMeal.AddOrUpdate(p));
             context.SaveChanges();

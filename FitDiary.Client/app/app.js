@@ -1,4 +1,4 @@
-﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
 
 app.config(function ($routeProvider) {
 
@@ -20,6 +20,11 @@ app.config(function ($routeProvider) {
     $routeProvider.when("/foodProducts", {
         controller: "foodProductController",
         templateUrl: "/app/views/foodProducts.html"
+    });
+
+    $routeProvider.when("/meals", {
+        controller: "mealController",
+        templateUrl: "/app/views/meals.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });

@@ -18,6 +18,6 @@ namespace FitDiary.Contracts.DTOs.Diet
         public double TotalCarb { get; set; }
         public double TotalSugar { get; set; }
 
-        public IEnumerable<ShortProductInMealDTO> Products { get; set; }
+        //public IEnumerable<ShortProductInMealDTO> Products { get; set; }
     }
 }
