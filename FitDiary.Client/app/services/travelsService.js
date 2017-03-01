@@ -24,6 +24,16 @@ app.factory('travelsService', ['$http', '$window', function ($http, $window) {
         });
     };
 
+    var _getDays = function () {
+
+        return $http.get(serviceBase + 'api/days').then(function successCallback(response) {
+            return response;
+        }).catch(function errorCallback(response) {
+            $window.alert(response);
+            $window.alert("blaad");
+        });
+    };
+
     var _getCategories = function () {
 
         return $http.get(serviceBase + 'api/foodCategories').then(function successCallback(response) {
@@ -34,6 +44,7 @@ app.factory('travelsService', ['$http', '$window', function ($http, $window) {
         });
     };
 
+    travelsServiceFactory.getDays = _getDays;
     travelsServiceFactory.getTravels = _getTravels;
     travelsServiceFactory.getCategories = _getCategories;
     travelsServiceFactory.getMeals = _getMeals;

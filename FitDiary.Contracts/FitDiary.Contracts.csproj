@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\Diet\DietDayDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategoryDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductDTO.cs" />
     <Compile Include="DTOs\Diet\MealDTO.cs" />

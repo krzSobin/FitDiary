@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Diet\DietDaysController.cs" />
     <Compile Include="Controllers\Training\ExcerciseCategoriesController.cs" />
     <Compile Include="Controllers\Training\ExcercisesController.cs" />
     <Compile Include="Controllers\Diet\FoodProductCategoriesController.cs" />
