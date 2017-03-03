@@ -25,14 +25,15 @@ namespace FitDiary.Api.Controllers.Diet
         // GET: api/DietDays
         [HttpGet]
         [Route("")]
-        public IEnumerable<DietDayDTO> GetMeals()
+        public IQueryable<DietDayDTO> GetMeals()
         {
+            var macrosList = new List<double>();
             var meals2 = db.Meals
-                .GroupBy(m => m.Date)
+                .GroupBy(m => DbFunctions.TruncateTime(m.Date))
                 .Select(d =>
                 new DietDayDTO
                 {
-                    Date = d.FirstOrDefault().Date,
+                    Date = (DateTime)DbFunctions.TruncateTime(d.FirstOrDefault().Date),
                     Macros = new List<double>()
                             {
                                 d.Sum(s => s.TotalProtein),
@@ -43,8 +44,7 @@ namespace FitDiary.Api.Controllers.Diet
                     TotalKCal = d.Sum(s => s.TotalKcal),
                     RealizationPercent = 0.0
                 })
-                .OrderBy(m => m.Date)
-                .ToList();
+                .OrderBy(m => m.Date);
 
             //var meals = db.Meals.GroupBy(m => m.Date);
             //var macros = new double[3]

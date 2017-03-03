@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using FitDiary.Api.DAL;
 using FitDiary.Api.Models;
 using System.Web.Http.Cors;
+using FitDiary.Contracts.DTOs.Diet;
 
 namespace FitDiary.Api.Controllers
 {
@@ -24,9 +25,28 @@ namespace FitDiary.Api.Controllers
         // GET: api/ProductsInMeal
         [HttpGet]
         [Route("meal/{mealId:int}")]
-        public IQueryable<ProductInMeal> GetProductsInMeal(int mealId)
+        public IQueryable<ProductInMealDTO> GetProductsInMeal(int mealId)
         {
-            return db.ProductsInMeal.Include(p => p.Product).Where(p => p.MealId == mealId);
+            var prods = db.ProductsInMeal.Include(p => p.Product)
+                .Select(p =>
+                        new ProductInMealDTO
+                        {
+                            MealId = p.MealId,
+                            AmountInGrams = p.AmountInGrams,
+                            Product = new FoodProductDTO
+                            {
+                                CarboPer100g = p.Product.CarboPer100g,
+                                FatsPer100g = p.Product.FatsPer100g,
+                                ProteinsPer100g = p.Product.ProteinsPer100g,
+                                SugarPer100g = p.Product.SugarPer100g,
+                                Category = "TODO",
+                                KCalPer100g = p.Product.KCalPer100g,
+                                Name = p.Product.Name
+                            }
+                        })
+                .Where(p => p.MealId == mealId);
+
+            return prods;
         }
 
         // GET: api/ProductsInMeal/5

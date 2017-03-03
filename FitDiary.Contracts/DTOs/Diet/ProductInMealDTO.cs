@@ -9,6 +9,7 @@ namespace FitDiary.Contracts.DTOs.Diet
     public class ProductInMealDTO
     {
         public int Id { get; set; }
+        public int MealId { get; set; }
         public double AmountInGrams { get; set; }
         public FoodProductDTO Product { get; set; }
 

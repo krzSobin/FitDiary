@@ -12,6 +12,6 @@ namespace FitDiary.Contracts.DTOs.Diet
         public int MealsCount { get; set; }
         public double TotalKCal { get; set; }
         public double RealizationPercent { get; set; }
-        public ICollection<double> Macros { get; set; }
+        public List<double> Macros { get; set; }
     }
 }

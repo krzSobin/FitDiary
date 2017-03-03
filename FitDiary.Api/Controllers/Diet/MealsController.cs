@@ -10,6 +10,7 @@ using FitDiary.Api.DAL;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
 using FitDiary.Contracts.DTOs.Diet;
+using System;
 
 namespace FitDiary.Api.Controllers
 {
@@ -54,6 +55,7 @@ namespace FitDiary.Api.Controllers
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> GetMeal(int id)
         {
+            
             Meal meal = await db.Meals.FindAsync(id);
             if (meal == null)
             {
@@ -61,6 +63,28 @@ namespace FitDiary.Api.Controllers
             }
 
             return Ok(meal);
+        }
+
+        [HttpGet]
+        [Route("{date:datetime}", Name = "GetMealByDate")]
+        [ResponseType(typeof(IEnumerable<Meal>))]
+        public IEnumerable<MealDTO> GetMeal(DateTime date)
+        {
+            var meals = db.Meals.Select(m =>
+            new MealDTO
+            {
+                Id = m.Id,
+                Date = m.Date,
+                TotalKcal = m.TotalKcal,
+                TotalProtein = m.TotalProtein,
+                TotalFat = m.TotalFat,
+                TotalCarb = m.TotalCarb,
+                TotalSugar = m.TotalSugar
+            })
+            .Where(m => DbFunctions.TruncateTime(m.Date) == date);
+            var mealsList = meals.ToList<MealDTO>();
+
+            return mealsList;
         }
 
         // PUT: api/Meals/5
