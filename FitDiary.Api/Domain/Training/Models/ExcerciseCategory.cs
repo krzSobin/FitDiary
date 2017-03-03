@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FitDiary.Api.Models
+namespace FitDiary.Api.Training.Models
 {
     public class ExcerciseCategory
     {

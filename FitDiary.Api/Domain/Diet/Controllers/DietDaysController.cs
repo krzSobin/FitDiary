@@ -1,61 +1,72 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
-using System.Web.Http.Cors;
-using System.Collections.Generic;
 using FitDiary.Contracts.DTOs.Diet;
-using System;
+using System.Web.Http.Cors;
+using FitDiary.Api.Diet.Models;
 
-namespace FitDiary.Api.Controllers
+namespace FitDiary.Api.Diet.Controllers
 {
     [EnableCors("*", "*", "*")]
-    [RoutePrefix("api/meals")]
-    public class MealsController : ApiController
+    [RoutePrefix("api/days")]
+    public class DietDaysController : ApiController
     {
         private FitDiaryApiContext db = new FitDiaryApiContext();
 
-        // GET: api/Meals
+        // GET: api/DietDays
         [HttpGet]
         [Route("")]
-        public IEnumerable<MealDTO> GetMeals()
+        public IQueryable<DietDayDTO> GetMeals()
         {
-            var meals = db.Meals.Select(m =>
-            new MealDTO
-            {
-                Id = m.Id,
-                Date = m.Date,
-                TotalKcal = m.TotalKcal,
-                TotalProtein = m.TotalProtein,
-                TotalFat = m.TotalFat,
-                TotalCarb = m.TotalCarb,
-                TotalSugar = m.TotalSugar
-            });
-            var mealsList = meals.ToList<MealDTO>();
+            var macrosList = new List<double>();
+            var meals2 = db.Meals
+                .GroupBy(m => DbFunctions.TruncateTime(m.Date))
+                .Select(d =>
+                new DietDayDTO
+                {
+                    Date = (DateTime)DbFunctions.TruncateTime(d.FirstOrDefault().Date),
+                    Macros = new List<double>()
+                            {
+                                d.Sum(s => s.TotalProtein),
+                                d.Sum(s => s.TotalFat),
+                                d.Sum(s => s.TotalCarb)
+                            },
+                    MealsCount = d.Count(),
+                    TotalKCal = d.Sum(s => s.TotalKcal),
+                    RealizationPercent = 0.0
+                })
+                .OrderBy(m => m.Date);
 
-            return mealsList;
+            //var meals = db.Meals.GroupBy(m => m.Date);
+            //var macros = new double[3]
+            //{
+            //    meals.Sum(s => s.TotalProtein),
+            //    meals.Sum(s => s.TotalFat),
+            //    meals.Sum(s => s.TotalCarb)
+            //};
+            //var day = new DietDayDTO
+            //{
+            //    MealsCount = meals.Count(),
+            //    Macros = macros,
+            //    TotalKCal = meals.Sum(s => s.TotalKcal),
+            //    RealizationPercent = 0
+            //};
+
+            return meals2;
         }
 
-        // GET: api/Meals
-        [HttpGet]
-        [Route("test")]
-        public IEnumerable<Meal> GetMealsTest()
-        {
-            return db.Meals.Include("Products.Product");
-        }
-
-        // GET: api/Meals/5
-        [HttpGet]
-        [Route("{id:int}", Name = "GetMealById")]
+        // GET: api/DietDays/5
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> GetMeal(int id)
         {
-            
             Meal meal = await db.Meals.FindAsync(id);
             if (meal == null)
             {
@@ -65,29 +76,7 @@ namespace FitDiary.Api.Controllers
             return Ok(meal);
         }
 
-        [HttpGet]
-        [Route("{date:datetime}", Name = "GetMealByDate")]
-        [ResponseType(typeof(IEnumerable<Meal>))]
-        public IEnumerable<MealDTO> GetMeal(DateTime date)
-        {
-            var meals = db.Meals.Select(m =>
-            new MealDTO
-            {
-                Id = m.Id,
-                Date = m.Date,
-                TotalKcal = m.TotalKcal,
-                TotalProtein = m.TotalProtein,
-                TotalFat = m.TotalFat,
-                TotalCarb = m.TotalCarb,
-                TotalSugar = m.TotalSugar
-            })
-            .Where(m => DbFunctions.TruncateTime(m.Date) == date);
-            var mealsList = meals.ToList<MealDTO>();
-
-            return mealsList;
-        }
-
-        // PUT: api/Meals/5
+        // PUT: api/DietDays/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutMeal(int id, Meal meal)
         {
@@ -122,9 +111,7 @@ namespace FitDiary.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Meals
-        [HttpPost]
-        [Route("")]
+        // POST: api/DietDays
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> PostMeal(Meal meal)
         {
@@ -134,17 +121,12 @@ namespace FitDiary.Api.Controllers
             }
 
             db.Meals.Add(meal);
-
-            foreach (ProductInMeal productsInMeal in meal.Products)
-            {
-                db.ProductsInMeal.Add(productsInMeal);
-            }
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("GetMealById", new { id = meal.Id }, meal);
+            return CreatedAtRoute("DefaultApi", new { id = meal.Id }, meal);
         }
 
-        // DELETE: api/Meals/5
+        // DELETE: api/DietDays/5
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> DeleteMeal(int id)
         {

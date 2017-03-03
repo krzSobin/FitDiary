@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FitDiary.Api.Models
+﻿namespace FitDiary.Api.Diet.Models
 {
     public class ProductInMeal
     {

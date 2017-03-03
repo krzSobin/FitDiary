@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FitDiary.Api.Models
+namespace FitDiary.Api.Diet.Models
 {
     public class FoodProductCategory
     {

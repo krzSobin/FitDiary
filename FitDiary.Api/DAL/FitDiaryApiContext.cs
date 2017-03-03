@@ -1,9 +1,13 @@
-﻿using FitDiary.Api.Models;
+﻿using FitDiary.Api.Auth.Models;
+using FitDiary.Api.Diet.Models;
+using FitDiary.Api.Domain.User;
+using FitDiary.Api.Training.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace FitDiary.Api.DAL
 {
-    public class FitDiaryApiContext : DbContext
+    public class FitDiaryApiContext : IdentityDbContext<ApplicationUser>
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -19,7 +23,7 @@ namespace FitDiary.Api.DAL
 
         public DbSet<Meal> Meals { get; set; }
 
-        public DbSet<Training> Trainings { get; set; }
+        public DbSet<TrainingSession> Trainings { get; set; }
 
         public DbSet<FoodProduct> FoodProducts { get; set; }
 
@@ -30,5 +34,9 @@ namespace FitDiary.Api.DAL
         public DbSet<ExcerciseCategory> ExcerciseCategories { get; set; }
 
         public DbSet<ProductInMeal> ProductsInMeal { get; set; }
+
+        public DbSet<BodyMeasurements> BodyMeasurements { get; set; }
+        public DbSet<BodyGoals> BodyGoals { get; set; }
+
     }
 }

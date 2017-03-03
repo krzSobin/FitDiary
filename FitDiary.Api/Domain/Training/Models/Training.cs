@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FitDiary.Api.Models
+namespace FitDiary.Api.Training.Models
 {
-    public class Training
+    public class TrainingSession
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -5,49 +5,49 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
+using FitDiary.Api.Training.Models;
 
-namespace FitDiary.Api.Controllers
+namespace FitDiary.Api.Training.Controllers
 {
-    public class TrainingsController : ApiController
+    public class ExcercisesController : ApiController
     {
         private FitDiaryApiContext db = new FitDiaryApiContext();
 
-        // GET: api/Trainings
-        public IQueryable<Training> GetTrainings()
+        // GET: api/Excercises
+        public IQueryable<Excercise> GetExcercises()
         {
-            return db.Trainings;
+            return db.Excercises;
         }
 
-        // GET: api/Trainings/5
-        [ResponseType(typeof(Training))]
-        public async Task<IHttpActionResult> GetTraining(int id)
+        // GET: api/Excercises/5
+        [ResponseType(typeof(Excercise))]
+        public async Task<IHttpActionResult> GetExcercise(int id)
         {
-            Training training = await db.Trainings.FindAsync(id);
-            if (training == null)
+            Excercise excercise = await db.Excercises.FindAsync(id);
+            if (excercise == null)
             {
                 return NotFound();
             }
 
-            return Ok(training);
+            return Ok(excercise);
         }
 
-        // PUT: api/Trainings/5
+        // PUT: api/Excercises/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTraining(int id, Training training)
+        public async Task<IHttpActionResult> PutExcercise(int id, Excercise excercise)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != training.Id)
+            if (id != excercise.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(training).State = EntityState.Modified;
+            db.Entry(excercise).State = EntityState.Modified;
 
             try
             {
@@ -55,7 +55,7 @@ namespace FitDiary.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TrainingExists(id))
+                if (!ExcerciseExists(id))
                 {
                     return NotFound();
                 }
@@ -68,35 +68,35 @@ namespace FitDiary.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Trainings
-        [ResponseType(typeof(Training))]
-        public async Task<IHttpActionResult> PostTraining(Training training)
+        // POST: api/Excercises
+        [ResponseType(typeof(Excercise))]
+        public async Task<IHttpActionResult> PostExcercise(Excercise excercise)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Trainings.Add(training);
+            db.Excercises.Add(excercise);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = training.Id }, training);
+            return CreatedAtRoute("DefaultApi", new { id = excercise.Id }, excercise);
         }
 
-        // DELETE: api/Trainings/5
-        [ResponseType(typeof(Training))]
-        public async Task<IHttpActionResult> DeleteTraining(int id)
+        // DELETE: api/Excercises/5
+        [ResponseType(typeof(Excercise))]
+        public async Task<IHttpActionResult> DeleteExcercise(int id)
         {
-            Training training = await db.Trainings.FindAsync(id);
-            if (training == null)
+            Excercise excercise = await db.Excercises.FindAsync(id);
+            if (excercise == null)
             {
                 return NotFound();
             }
 
-            db.Trainings.Remove(training);
+            db.Excercises.Remove(excercise);
             await db.SaveChangesAsync();
 
-            return Ok(training);
+            return Ok(excercise);
         }
 
         protected override void Dispose(bool disposing)
@@ -108,9 +108,9 @@ namespace FitDiary.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool TrainingExists(int id)
+        private bool ExcerciseExists(int id)
         {
-            return db.Trainings.Count(e => e.Id == id) > 0;
+            return db.Excercises.Count(e => e.Id == id) > 0;
         }
     }
 }

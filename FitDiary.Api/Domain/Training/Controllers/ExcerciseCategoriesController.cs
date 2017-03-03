@@ -5,10 +5,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
+using FitDiary.Api.Training.Models;
 
-namespace FitDiary.Api.Controllers
+namespace FitDiary.Api.Training.Controllers
 {
     [RoutePrefix("api/excerciseCategories")]
     public class ExcerciseCategoriesController : ApiController

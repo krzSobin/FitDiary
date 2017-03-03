@@ -5,14 +5,13 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
 using System.Web.Http.Cors;
-using FitDiary.Contracts.DTOs;
 using System.Collections.Generic;
 using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.Api.Diet.Models;
 
-namespace FitDiary.Api.Controllers
+namespace FitDiary.Api.Diet.Controllers
 {
     [EnableCors("*", "*", "*")]
     [RoutePrefix("api/foodCategories")]
