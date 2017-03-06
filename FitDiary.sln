@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelGuru.Web", "..\Visual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Client", "FitDiary.Client\FitDiary.Client.csproj", "{FBCA1600-E7EB-45E4-A639-4EB78CC33009}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.AngularClient", "FitDiary.AngularClient\FitDiary.AngularClient.csproj", "{51FEA424-9EEA-49C3-9420-3B0BD855BC16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51FEA424-9EEA-49C3-9420-3B0BD855BC16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51FEA424-9EEA-49C3-9420-3B0BD855BC16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51FEA424-9EEA-49C3-9420-3B0BD855BC16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51FEA424-9EEA-49C3-9420-3B0BD855BC16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
