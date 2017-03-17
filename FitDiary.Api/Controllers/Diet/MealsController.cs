@@ -11,6 +11,7 @@ using System.Web.Http.Cors;
 using System.Collections.Generic;
 using FitDiary.Contracts.DTOs.Diet;
 using System;
+using FitDiary.Api.Services;
 
 namespace FitDiary.Api.Controllers
 {
@@ -19,26 +20,19 @@ namespace FitDiary.Api.Controllers
     public class MealsController : ApiController
     {
         private FitDiaryApiContext db = new FitDiaryApiContext();
+        private readonly IMealService _mealSrv;
+
+        public MealsController(IMealService mealService)
+        {
+            _mealSrv = mealService;
+        }
 
         // GET: api/Meals
         [HttpGet]
         [Route("")]
         public IEnumerable<MealDTO> GetMeals()
         {
-            var meals = db.Meals.Select(m =>
-            new MealDTO
-            {
-                Id = m.Id,
-                Date = m.Date,
-                TotalKcal = m.TotalKcal,
-                TotalProtein = m.TotalProtein,
-                TotalFat = m.TotalFat,
-                TotalCarb = m.TotalCarb,
-                TotalSugar = m.TotalSugar
-            });
-            var mealsList = meals.ToList<MealDTO>();
-
-            return mealsList;
+            return _mealSrv.GetMeals();
         }
 
         // GET: api/Meals
@@ -53,10 +47,9 @@ namespace FitDiary.Api.Controllers
         [HttpGet]
         [Route("{id:int}", Name = "GetMealById")]
         [ResponseType(typeof(Meal))]
-        public async Task<IHttpActionResult> GetMeal(int id)
+        public async Task<IHttpActionResult> GetMealAsync(int id)
         {
-            
-            Meal meal = await db.Meals.FindAsync(id);
+            var meal = await _mealSrv.GetMealAsync(id);
             if (meal == null)
             {
                 return NotFound();
@@ -68,23 +61,9 @@ namespace FitDiary.Api.Controllers
         [HttpGet]
         [Route("{date:datetime}", Name = "GetMealByDate")]
         [ResponseType(typeof(IEnumerable<Meal>))]
-        public IEnumerable<MealDTO> GetMeal(DateTime date)
+        public IEnumerable<MealDTO> GetMeals(DateTime date)
         {
-            var meals = db.Meals.Select(m =>
-            new MealDTO
-            {
-                Id = m.Id,
-                Date = m.Date,
-                TotalKcal = m.TotalKcal,
-                TotalProtein = m.TotalProtein,
-                TotalFat = m.TotalFat,
-                TotalCarb = m.TotalCarb,
-                TotalSugar = m.TotalSugar
-            })
-            .Where(m => DbFunctions.TruncateTime(m.Date) == date);
-            var mealsList = meals.ToList<MealDTO>();
-
-            return mealsList;
+            return _mealSrv.GetMeals(date);
         }
 
         // PUT: api/Meals/5

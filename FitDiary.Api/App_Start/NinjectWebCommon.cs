@@ -67,6 +67,7 @@ namespace FitDiary.Api.App_Start
         {
             kernel.Bind<DAL.FitDiaryApiContext>().ToSelf().InRequestScope();
             kernel.Bind<IFoodProductService>().To<FoodProductService>();
-        }        
+            kernel.Bind<IMealService>().To<MealService>();
+        }
     }
 }
