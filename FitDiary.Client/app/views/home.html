@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-12" data-ng-repeat="day in days">
                 <div class="col-md-1">
-                    <p>12.03.2015</p>
+                    <p>{{day.Date | date :'dd-MM'}}</p>
                 </div>
                 <div class="col-md-2">
                     <p>{{day.MealsCount}}</p>

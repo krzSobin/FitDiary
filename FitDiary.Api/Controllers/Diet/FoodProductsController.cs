@@ -7,10 +7,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
-using FitDiary.Contracts.DTOs;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.Api.Services;
+using FitDiary.Api.Models.QueryModels;
 
 namespace FitDiary.Api.Controllers
 {
@@ -18,46 +19,31 @@ namespace FitDiary.Api.Controllers
     [RoutePrefix("api/foodProducts")]
     public class FoodProductsController : ApiController
     {
-        private FitDiaryApiContext db = new FitDiaryApiContext();
+        private readonly IFoodProductService _foodProdSrv;
+
+        public FoodProductsController(IFoodProductService foodProductService)
+        {
+            _foodProdSrv = foodProductService;
+        }
 
         // GET: api/FoodProducts
         [HttpGet]
         [Route("")]
-        public IEnumerable<FoodProductDTO> GetFoodProducts()
+        public IEnumerable<FoodProductDTO> GetFoodProducts([FromUri]FoodProductQuery query)
         {
-            var products = db.FoodProducts.Select(product =>
-            new FoodProductDTO
+            if (query == null)
             {
-                Id = product.Id,
-                Name = product.Name,
-                Category = product.Category.Name,
-                CarboPer100g = product.CarboPer100g,
-                ProteinsPer100g = product.ProteinsPer100g,
-                FatsPer100g = product.FatsPer100g,
-                SugarPer100g = product.SugarPer100g,
-                KCalPer100g = product.KCalPer100g
-            });
-            var a = products.ToList<FoodProductDTO>();
-            return a;
+                query = new FoodProductQuery();
+            }
+            return _foodProdSrv.GetFoodProducts(query);
         }
 
         [HttpGet]
-        [Route("{id:int}", Name="GetFoodProductById")]
+        [Route("{id:int}", Name = "GetFoodProductById")]
         [ResponseType(typeof(FoodProduct))]
-        public async Task<IHttpActionResult> GetFoodProduct(int id)
+        public async Task<IHttpActionResult> GetFoodProductAsync(int id)
         {
-            var product = await db.FoodProducts.Select(p =>
-            new FoodProductDTO
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Category = p.Category.Name,
-                CarboPer100g = p.CarboPer100g,
-                ProteinsPer100g = p.ProteinsPer100g,
-                FatsPer100g = p.FatsPer100g,
-                SugarPer100g = p.SugarPer100g,
-                KCalPer100g = p.KCalPer100g
-            }).SingleOrDefaultAsync(p => p.Id == id);
+            var product = await _foodProdSrv.GetFoodProductAsync(id).ConfigureAwait(false);
 
             if (product == null)
             {
@@ -71,34 +57,24 @@ namespace FitDiary.Api.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutFoodProduct(int id, FoodProduct foodProduct)
+        public async Task<IHttpActionResult> PutFoodProductAsync(int id, FoodProduct foodProduct)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (id != foodProduct.Id)
-            {
                 return BadRequest();
-            }
-
-            db.Entry(foodProduct).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                await _foodProdSrv.PutFoodProductAsync(id, foodProduct);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (HttpResponseException e)
             {
-                if (!FoodProductExists(id))
-                {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -108,49 +84,35 @@ namespace FitDiary.Api.Controllers
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(FoodProduct))]
-        public async Task<IHttpActionResult> PostFoodProduct(FoodProduct foodProduct)
+        public async Task<IHttpActionResult> PostFoodProductAsync(FoodProduct foodProduct)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var prod = await _foodProdSrv.PostFoodProductAsync(foodProduct).ConfigureAwait(false);
 
-            db.FoodProducts.Add(foodProduct);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("GetFoodProductById", new { id = foodProduct.Id }, foodProduct);
+            return CreatedAtRoute("GetFoodProductById", new { id = prod.Id }, prod);
         }
 
         // DELETE: api/FoodProducts/5
         [HttpDelete]
         [Route("{id:int}")]
         [ResponseType(typeof(FoodProduct))]
-        public async Task<IHttpActionResult> DeleteFoodProduct(int id)
+        public async Task<IHttpActionResult> DeleteFoodProductAsync(int id)
         {
-            FoodProduct foodProduct = await db.FoodProducts.FindAsync(id);
-            if (foodProduct == null)
+            try
             {
+                var product = await _foodProdSrv.DeleteFoodProductAsync(id).ConfigureAwait(false);
+
+                return Ok(product);
+            }
+            catch (HttpResponseException e)
+            {
+                if (e.Response.StatusCode != HttpStatusCode.NotFound)
+                    throw;
                 return NotFound();
             }
-
-            db.FoodProducts.Remove(foodProduct);
-            await db.SaveChangesAsync();
-
-            return Ok(foodProduct);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool FoodProductExists(int id)
-        {
-            return db.FoodProducts.Count(e => e.Id == id) > 0;
         }
     }
 }
