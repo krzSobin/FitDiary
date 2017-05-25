@@ -17,7 +17,7 @@
     <AssemblyName>FitDiary.Api</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44393</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -119,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\Diet\DietDaysController.cs" />
     <Compile Include="Controllers\Training\ExcerciseCategoriesController.cs" />
     <Compile Include="Controllers\Training\ExcercisesController.cs" />
     <Compile Include="Controllers\Diet\FoodProductCategoriesController.cs" />

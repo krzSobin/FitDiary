@@ -7,7 +7,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using FitDiary.Api.Models;
 using FitDiary.Api.DAL;
-using FitDiary.Contracts.DTOs;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using FitDiary.Contracts.DTOs.Diet;

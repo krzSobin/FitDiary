@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitDiary.Contracts.DTOs.Diet
 {
@@ -11,7 +8,10 @@ namespace FitDiary.Contracts.DTOs.Diet
         public DateTime Date { get; set; }
         public int MealsCount { get; set; }
         public double TotalKCal { get; set; }
+        public double TotalProteins { get; set; }
+        public double TotalCarbs { get; set; }
+        public double TotalFats { get; set; }
+        public double TotalSugar { get; set; }
         public double RealizationPercent { get; set; }
-        public List<double> Macros { get; set; }
     }
 }
