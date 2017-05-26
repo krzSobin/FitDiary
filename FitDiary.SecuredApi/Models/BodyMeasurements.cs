@@ -1,9 +1,19 @@
-﻿namespace FitDiary.SecuredApi.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FitDiary.SecuredApi.Models
 {
     public class BodyMeasurements
     {
-        public double WeightInKg { get; set; }
-        public double ChestInCm { get; set; }
-        public double WaistInCm { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public double Id { get; set; }
+
+        public double? WeightInKg { get; set; }
+        public double? ChestInCm { get; set; }
+        public double? WaistInCm { get; set; }
+
+        public DateTime MeasurementDate { get; set; }
     }
 }

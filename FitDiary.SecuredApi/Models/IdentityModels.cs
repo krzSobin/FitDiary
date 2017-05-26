@@ -19,7 +19,8 @@ namespace FitDiary.SecuredApi.Models
 
         public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
-        //public virtual BodyMeasurements Measurements { get; set; }
+        public int BodyMeasurementsId { get; set; }
+        public virtual BodyMeasurements BodyMeasurements { get; set; }
         //public virtual BodyGoals BodyGoals { get; set; }
 
 
@@ -48,5 +49,6 @@ namespace FitDiary.SecuredApi.Models
         public DbSet<Meal> Meals { get; set; }
         public DbSet<FoodProductCategory> FoodProductCategories { get; set; }
         public DbSet<ProductInMeal> ProductsInMeal { get; set; }
+        public DbSet<BodyMeasurements> BodyMeasurements { get; set; }
     }
 }

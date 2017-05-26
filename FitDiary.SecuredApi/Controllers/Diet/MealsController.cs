@@ -114,6 +114,8 @@ namespace FitDiary.SecuredApi.Controllers.Diet
                 return BadRequest(ModelState);
             }
 
+
+
             db.Meals.Add(meal);
 
             foreach (ProductInMeal productsInMeal in meal.Products)

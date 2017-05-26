@@ -1,7 +1,12 @@
-﻿namespace FitDiary.SecuredApi.Models.Diet
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FitDiary.SecuredApi.Models.Diet
 {
     public class ProductInMeal
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public double AmountInGrams { get; set; }
         public int ProductId { get; set; }

@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.SecuredApi.Models.Diet;
+using Dapper.Contrib.Extensions;
 
 namespace FitDiary.SecuredApi.Services.Diet
 {
@@ -17,9 +19,13 @@ namespace FitDiary.SecuredApi.Services.Diet
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var result = await con.QueryAsync<MealDTO>(@"SELECT m.id, m.date, m.totalKcal, m.TotalProtein, m.totalFat, m.totalCarb, m.totalSugar
-                                        FROM [Meals] m
-                                        JOIN [FoodProductCategories] cat on fp.categoryId = cat.id");
+                var result = await con.QueryAsync<MealDTO>(@"SELECT m.id, m.date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
+                                                                    SUM(pim.amountInGrams*fp.proteinsPer100g/100) AS TotalProtein, SUM(pim.amountInGrams*fp.fatsPer100g/100) AS TotalFat,
+                                                                    SUM(pim.amountInGrams*fp.CarboPer100g/100) AS TotalCarb, SUM(pim.amountInGrams*fp.sugarPer100g/100) AS TotalSugar
+                                                            FROM [Meals] m
+                                                            JOIN [ProductInMeals] pim on pim.mealId = m.Id
+                                                            JOIN [FoodProducts] fp on fp.id = pim.productId
+															group by m.id, m.date");
 
                 return result;
             }
@@ -29,9 +35,14 @@ namespace FitDiary.SecuredApi.Services.Diet
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT m.id, m.date, m.totalKcal, m.TotalProtein, m.totalFat, m.totalCarb, m.totalSugar
-                                        FROM [Meals] m
-                                        WHERE datediff(day, m.date, @MealsDay) = 0";
+                var sql = @"SELECT m.id, m.date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
+                                    SUM(pim.amountInGrams*fp.proteinsPer100g/100) AS TotalProtein, SUM(pim.amountInGrams*fp.fatsPer100g/100) AS TotalFat,
+                                    SUM(pim.amountInGrams*fp.CarboPer100g/100) AS TotalCarb, SUM(pim.amountInGrams*fp.sugarPer100g/100) AS TotalSugar
+                            FROM [Meals] m
+                            JOIN [ProductInMeals] pim on pim.mealId = m.Id
+                            JOIN [FoodProducts] fp on fp.id = pim.productId
+                            WHERE datediff(day, m.date, @MealsDay) = 0
+                            GROUP BY m.id, m.date";
 
                 var result = await con.QueryAsync<MealDTO>(sql, new { MealsDay = mealsDay });
 
@@ -43,11 +54,18 @@ namespace FitDiary.SecuredApi.Services.Diet
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT CAST(Date AS DATE) as Date, SUM(1) as MealsCount, SUM(TotalKcal) as TotalKCal, SUM(TotalProtein) AS TotalProteins, SUM(TotalCarb) AS TotalCarbs, SUM(TotalSugar) AS TotalSugar, SUM(TotalFat) AS TotalFats, SUM(TotalKcal)/2500*100 as RealizationPercent
-                            FROM [Meals]
-							WHERE CAST(Date AS DATE) >= @MealDateRangeStart AND CAST(Date AS DATE) <= @MealDateRangeEnd
-                            GROUP BY CAST(Date AS DATE)
-							order by date";
+                var sql = @"SELECT CAST(meals.Date AS DATE) as Date, SUM(1) as MealsCount, SUM(meals.TotalKCal) as TotalKCal, SUM(meals.TotalProtein) AS TotalProteins, SUM(meals.TotalCarb) AS TotalCarbs, SUM(meals.TotalSugar) AS TotalSugar, SUM(meals.TotalFat) AS TotalFats, SUM(meals.TotalKCal)/2500*100 as RealizationPercent
+                            FROM 
+								(SELECT m.id, m.date AS date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
+                                    SUM(pim.amountInGrams*fp.proteinsPer100g/100) AS TotalProtein, SUM(pim.amountInGrams*fp.fatsPer100g/100) AS TotalFat,
+                                    SUM(pim.amountInGrams*fp.CarboPer100g/100) AS TotalCarb, SUM(pim.amountInGrams*fp.sugarPer100g/100) AS TotalSugar
+								FROM [Meals] m
+								JOIN [ProductInMeals] pim on pim.mealId = m.Id
+								JOIN [FoodProducts] fp on fp.id = pim.productId
+								GROUP BY m.id, m.date) AS meals
+							WHERE CAST(meals.Date AS DATE) >= '2016-02-10' AND CAST(meals.Date AS DATE) <= '2018-02-20'
+                            GROUP BY CAST(meals.Date AS DATE)
+							order by CAST(meals.Date AS DATE)";
 
                 var result = await con.QueryAsync<DietDayDTO>(sql, new { MealDateRangeStart = mealDateRangeStart.Date, MealDateRangeEnd = mealDateRangeEnd.Date });
 
@@ -59,14 +77,43 @@ namespace FitDiary.SecuredApi.Services.Diet
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT m.id, m.date, m.totalKcal, m.TotalProtein, m.totalFat, m.totalCarb, m.totalSugar
-                                        FROM [Meals] m
-                                        WHERE m.id = @Id";
+                var sql = @"SELECT m.id, m.date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
+                                    SUM(pim.amountInGrams*fp.proteinsPer100g/100) AS TotalProtein, SUM(pim.amountInGrams*fp.fatsPer100g/100) AS TotalFat,
+                                    SUM(pim.amountInGrams*fp.CarboPer100g/100) AS TotalCarb, SUM(pim.amountInGrams*fp.sugarPer100g/100) AS TotalSugar
+                            FROM [Meals] m
+                            JOIN [ProductInMeals] pim on pim.mealId = m.Id
+                            JOIN [FoodProducts] fp on fp.id = pim.productId
+                            WHERE m.id = @Id
+                            GROUP BY m.id, m.date";
 
                 var result = await con.QueryFirstOrDefaultAsync<MealDTO>(sql, new { Id = id });
 
                 return result;
             }
         }
+
+        //public async int AddMeal(Meal meal)
+        //{
+        //    long result;
+
+        //    using (var con = new SqlConnection(_connectionString))
+        //    {
+        //        using (var tran = con.BeginTransaction())
+        //        {
+        //            try
+        //            {
+        //                con.Insert(meal.Products);
+        //                result = con.Insert(meal);
+        //            }
+        //            catch
+        //            {
+        //                tran.Rollback();
+        //                throw;
+        //            }
+        //        }
+
+        //        return result;
+        //    }
+        //}
     }
 }

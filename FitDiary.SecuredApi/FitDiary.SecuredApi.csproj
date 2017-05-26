@@ -48,6 +48,9 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -57,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
@@ -205,6 +209,22 @@
     <Compile Include="Migrations\201705251308314_new version.Designer.cs">
       <DependentUpon>201705251308314_new version.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705261109103_Added body measurements.cs" />
+    <Compile Include="Migrations\201705261109103_Added body measurements.Designer.cs">
+      <DependentUpon>201705261109103_Added body measurements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705261130147_Fix body measurement.cs" />
+    <Compile Include="Migrations\201705261130147_Fix body measurement.Designer.cs">
+      <DependentUpon>201705261130147_Fix body measurement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705261132189_Fix body measurement v2.cs" />
+    <Compile Include="Migrations\201705261132189_Fix body measurement v2.Designer.cs">
+      <DependentUpon>201705261132189_Fix body measurement v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705261351525_fix.cs" />
+    <Compile Include="Migrations\201705261351525_fix.Designer.cs">
+      <DependentUpon>201705261351525_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -271,6 +291,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705251308314_new version.resx">
       <DependentUpon>201705251308314_new version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705261109103_Added body measurements.resx">
+      <DependentUpon>201705261109103_Added body measurements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705261130147_Fix body measurement.resx">
+      <DependentUpon>201705261130147_Fix body measurement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705261132189_Fix body measurement v2.resx">
+      <DependentUpon>201705261132189_Fix body measurement v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705261351525_fix.resx">
+      <DependentUpon>201705261351525_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
