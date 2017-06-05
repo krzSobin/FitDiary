@@ -50,7 +50,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [ResponseType(typeof(MealForListingDTO))]
         public async Task<IHttpActionResult> GetMealAsync(int id)
         {
-            var result = await _mealsSrv.GetMealsByDAyAsync(id);
+            var result = await _mealsSrv.GetMealByIdAsync(id);
 
             if (result == null)
             {
@@ -122,17 +122,18 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         }
 
         // DELETE: api/Meals/5
+        [HttpDelete]
+        [Route("{id:int}")]
         [ResponseType(typeof(Meal))]
         public async Task<IHttpActionResult> DeleteMeal(int id)
         {
-            Meal meal = await db.Meals.FindAsync(id);
+            var meal = await _mealsSrv.GetMealByIdAsync(id);
             if (meal == null)
             {
                 return NotFound();
             }
 
-            db.Meals.Remove(meal);
-            await db.SaveChangesAsync();
+            var result = await _mealsSrv.DeleteMeal(id);
 
             return Ok(meal);
         }

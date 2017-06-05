@@ -1,7 +1,7 @@
 ﻿'use strict';
 app.factory('travelsService', ['$http', '$window', function ($http, $window) {
 
-    var serviceBase = 'http://localhost:52493/';
+    var serviceBase = 'http://localhost:55986/';
     var travelsServiceFactory = {};
 
     var _getTravels = function () {
@@ -19,7 +19,7 @@ app.factory('travelsService', ['$http', '$window', function ($http, $window) {
         return $http.get(serviceBase + 'api/meals').then(function successCallback(response) {
             return response;
         }).catch(function errorCallback(response) {
-            $window.alert(response);
+            $window.alert(response.error);
             $window.alert("errrooorrrr");
         });
     };

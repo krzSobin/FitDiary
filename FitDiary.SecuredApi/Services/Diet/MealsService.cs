@@ -8,13 +8,14 @@ using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
 using FitDiary.SecuredApi.Models.Diet;
 using Dapper.Contrib.Extensions;
+using System.Web.Http;
 
 namespace FitDiary.SecuredApi.Services.Diet
 {
     public class MealsService
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString; //TODO DI
-        
+
         public async Task<IEnumerable<MealForListingDTO>> GetMealsAsync()
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
@@ -73,7 +74,7 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<MealForListingDTO> GetMealsByDAyAsync(int id)
+        public async Task<MealForListingDTO> GetMealByIdAsync(int id)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -127,6 +128,40 @@ namespace FitDiary.SecuredApi.Services.Diet
 
                 return mealId;
             }
+        }
+
+        public async Task<int> DeleteMeal(int id)
+        {
+            var sqlDeleteMeal = @"DELETE FROM [Meals]
+                        WHERE Id = @Id";
+
+            var sqlDeleteProductsInMeal = @"DELETE FROM [ProductInMeals]
+                                            WHERE MealId = @Id";
+            int result;
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (var tran = con.BeginTransaction())
+                {
+                    try
+                    {
+
+                        await con.ExecuteAsync(sqlDeleteProductsInMeal, new { Id = id }, tran);
+
+                        result = await con.ExecuteAsync(sqlDeleteMeal, new { Id = id }, tran);
+
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                        throw;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

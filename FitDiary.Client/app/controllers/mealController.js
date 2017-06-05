@@ -5,11 +5,10 @@ app.controller('mealController', ['$scope', 'travelsService', '$window', functio
     $scope.meals = [];
 
     travelsService.getMeals().then(function (response) {
-        $window.alert("ok meal");
         $scope.meals = response.data;
 
     }, function (error) {
-        $window.alert(error.data.message);
+        $window.alert("kupa");
         //alert(error.data.message);
     });
 }]);
