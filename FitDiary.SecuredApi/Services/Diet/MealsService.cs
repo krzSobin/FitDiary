@@ -16,7 +16,7 @@ namespace FitDiary.SecuredApi.Services.Diet
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString; //TODO DI
 
-        public async Task<IEnumerable<MealForListingDTO>> GetMealsAsync()
+        public async Task<IEnumerable<MealForListingDTO>> GetMealsAsync(string userId)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -26,7 +26,8 @@ namespace FitDiary.SecuredApi.Services.Diet
                                                             FROM [Meals] m
                                                             JOIN [ProductInMeals] pim on pim.mealId = m.Id
                                                             JOIN [FoodProducts] fp on fp.id = pim.productId
-															group by m.id, m.date");
+                                                            WHERE m.userId = @UserId
+															group by m.id, m.date", new { UserId = userId });
 
                 return result;
             }

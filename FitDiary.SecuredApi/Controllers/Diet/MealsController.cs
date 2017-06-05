@@ -12,9 +12,12 @@ using System.Web.Http.Cors;
 using FitDiary.SecuredApi.Models.Diet;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Services.Diet;
+using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
+    [Authorize]
     [EnableCors("*", "*", "*")]
     [RoutePrefix("api/meals")]
     public class MealsController : ApiController
@@ -28,7 +31,8 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
         public async Task<IHttpActionResult> GetMealsAsync()
         {
-            var meals = await _mealsSrv.GetMealsAsync();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var meals = await _mealsSrv.GetMealsAsync(userId);
 
             return Ok(meals);
         }
