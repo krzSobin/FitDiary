@@ -182,6 +182,7 @@
     <Compile Include="Controllers\Diet\FoodProductsController.cs" />
     <Compile Include="Controllers\Diet\MealsController.cs" />
     <Compile Include="Controllers\Diet\ProductsInMealController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -225,6 +226,14 @@
     <Compile Include="Migrations\201705261351525_fix.Designer.cs">
       <DependentUpon>201705261351525_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706051222047_User id as string.cs" />
+    <Compile Include="Migrations\201706051222047_User id as string.Designer.cs">
+      <DependentUpon>201706051222047_User id as string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706051239333_Added virtual keyword.cs" />
+    <Compile Include="Migrations\201706051239333_Added virtual keyword.Designer.cs">
+      <DependentUpon>201706051239333_Added virtual keyword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -243,6 +252,7 @@
     <Compile Include="Services\Diet\FoodProductsService.cs" />
     <Compile Include="Services\Diet\MealsService.cs" />
     <Compile Include="Services\Diet\ProductsInMealService.cs" />
+    <Compile Include="Services\UsersService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +313,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705261351525_fix.resx">
       <DependentUpon>201705261351525_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706051222047_User id as string.resx">
+      <DependentUpon>201706051222047_User id as string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706051239333_Added virtual keyword.resx">
+      <DependentUpon>201706051239333_Added virtual keyword.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

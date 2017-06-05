@@ -15,11 +15,11 @@ namespace FitDiary.SecuredApi.Services.Diet
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString; //TODO DI
         
-        public async Task<IEnumerable<MealDTO>> GetMealsAsync()
+        public async Task<IEnumerable<MealForListingDTO>> GetMealsAsync()
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var result = await con.QueryAsync<MealDTO>(@"SELECT m.id, m.date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
+                var result = await con.QueryAsync<MealForListingDTO>(@"SELECT m.id, m.date, SUM(pim.amountInGrams*fp.kCalPer100g/100) AS TotalKCal,
                                                                     SUM(pim.amountInGrams*fp.proteinsPer100g/100) AS TotalProtein, SUM(pim.amountInGrams*fp.fatsPer100g/100) AS TotalFat,
                                                                     SUM(pim.amountInGrams*fp.CarboPer100g/100) AS TotalCarb, SUM(pim.amountInGrams*fp.sugarPer100g/100) AS TotalSugar
                                                             FROM [Meals] m
@@ -31,7 +31,7 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<IEnumerable<MealDTO>> GetMealsByDAyAsync(DateTime mealsDay)
+        public async Task<IEnumerable<MealForListingDTO>> GetMealsByDAyAsync(DateTime mealsDay)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -44,7 +44,7 @@ namespace FitDiary.SecuredApi.Services.Diet
                             WHERE datediff(day, m.date, @MealsDay) = 0
                             GROUP BY m.id, m.date";
 
-                var result = await con.QueryAsync<MealDTO>(sql, new { MealsDay = mealsDay });
+                var result = await con.QueryAsync<MealForListingDTO>(sql, new { MealsDay = mealsDay });
 
                 return result;
             }
@@ -73,7 +73,7 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<MealDTO> GetMealsByDAyAsync(int id)
+        public async Task<MealForListingDTO> GetMealsByDAyAsync(int id)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -86,34 +86,47 @@ namespace FitDiary.SecuredApi.Services.Diet
                             WHERE m.id = @Id
                             GROUP BY m.id, m.date";
 
-                var result = await con.QueryFirstOrDefaultAsync<MealDTO>(sql, new { Id = id });
+                var result = await con.QueryFirstOrDefaultAsync<MealForListingDTO>(sql, new { Id = id });
 
                 return result;
             }
         }
 
-        //public async int AddMeal(Meal meal)
-        //{
-        //    long result;
+        public async Task<int> AddMeal(MealInsertDTO meal)
+        {
+            int mealId;
+            var sqlForMeals = @"INSERT INTO [Meals] ([Name], [Date], [UserId])
+                                VALUES(@Name, @Date, @UserId);
+                                SELECT SCOPE_IDENTITY();";
 
-        //    using (var con = new SqlConnection(_connectionString))
-        //    {
-        //        using (var tran = con.BeginTransaction())
-        //        {
-        //            try
-        //            {
-        //                con.Insert(meal.Products);
-        //                result = con.Insert(meal);
-        //            }
-        //            catch
-        //            {
-        //                tran.Rollback();
-        //                throw;
-        //            }
-        //        }
+            var sqlForProducts = @"INSERT INTO [ProductInMeals] ([AmountInGrams], [ProductId], [MealId])
+                                VALUES(@AmountInGrams, @ProductId, @MealId)";
 
-        //        return result;
-        //    }
-        //}
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (var tran = con.BeginTransaction())
+                {
+                    try
+                    {
+
+                        mealId = await con.QueryFirstOrDefaultAsync<int>(sqlForMeals, new { Name = meal.Name, Date = meal.Date, UserId = meal.UserId }, tran);
+                        foreach (var productInMeal in meal.Products)
+                        {
+                            await con.ExecuteAsync(sqlForProducts, new { AmountInGrams = productInMeal.AmountInGrams, ProductId = productInMeal.ProductId, MealId = mealId }, tran);
+                        }
+
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                        throw;
+                    }
+                }
+
+                return mealId;
+            }
+        }
     }
 }

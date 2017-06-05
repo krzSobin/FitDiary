@@ -25,27 +25,29 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // GET: api/Meals
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<MealDTO>> GetMealsAsync()
+        [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
+        public async Task<IHttpActionResult> GetMealsAsync()
         {
             var meals = await _mealsSrv.GetMealsAsync();
 
-            return meals;
+            return Ok(meals);
         }
 
         // GET: api/Meals
         [HttpGet]
         [Route("zmienic")]
-        public async Task<IEnumerable<DietDayDTO>> GetMealsPerDaysAsync()
+        [ResponseType(typeof(IEnumerable<DietDayDTO>))]
+        public async Task<IHttpActionResult> GetMealsPerDaysAsync()//TODO routing + parametry
         {
             var result = await _mealsSrv.GetMealsInDaysRangeAsync(new DateTime(2009, 12, 12), DateTime.UtcNow);
-            return result;
+            return Ok(result);
         }
 
 
         // GET: api/Meals/5
         [HttpGet]
         [Route("{id:int}", Name = "GetMealById")]
-        [ResponseType(typeof(MealDTO))]
+        [ResponseType(typeof(MealForListingDTO))]
         public async Task<IHttpActionResult> GetMealAsync(int id)
         {
             var result = await _mealsSrv.GetMealsByDAyAsync(id);
@@ -60,12 +62,12 @@ namespace FitDiary.SecuredApi.Controllers.Diet
 
         [HttpGet]
         [Route("{date:datetime}", Name = "GetMealByDate")]
-        [ResponseType(typeof(IEnumerable<Meal>))]
-        public async Task<IEnumerable<MealDTO>> GetMealAsync(DateTime date)
+        [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
+        public async Task<IHttpActionResult> GetMealAsync(DateTime date)
         {
             var result = await _mealsSrv.GetMealsByDAyAsync(date);
 
-            return result;
+            return Ok(result);
         }
 
         // PUT: api/Meals/5
@@ -107,24 +109,16 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(Meal))]
-        public async Task<IHttpActionResult> PostMeal(Meal meal)
+        public async Task<IHttpActionResult> PostMeal(MealInsertDTO meal)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var result = await _mealsSrv.AddMeal(meal);
 
-
-            db.Meals.Add(meal);
-
-            foreach (ProductInMeal productsInMeal in meal.Products)
-            {
-                db.ProductsInMeal.Add(productsInMeal);
-            }
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("GetMealById", new { id = meal.Id }, meal);
+            return CreatedAtRoute("GetMealById", new { id = result }, meal);
         }
 
         // DELETE: api/Meals/5

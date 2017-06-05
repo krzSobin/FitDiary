@@ -2,7 +2,7 @@
 
 namespace FitDiary.Contracts.DTOs.Diet
 {
-    public class MealDTO
+    public class MealForListingDTO
     {
         public int Id { get; set; }
 

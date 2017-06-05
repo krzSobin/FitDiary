@@ -23,10 +23,10 @@ namespace FitDiary.Api.Controllers
         // GET: api/Meals
         [HttpGet]
         [Route("")]
-        public IEnumerable<MealDTO> GetMeals()
+        public IEnumerable<MealForListingDTO> GetMeals()
         {
             var meals = db.Meals.Select(m =>
-            new MealDTO
+            new MealForListingDTO
             {
                 Id = m.Id,
                 Date = m.Date,
@@ -36,7 +36,7 @@ namespace FitDiary.Api.Controllers
                 TotalCarb = m.TotalCarb,
                 TotalSugar = m.TotalSugar
             });
-            var mealsList = meals.ToList<MealDTO>();
+            var mealsList = meals.ToList<MealForListingDTO>();
 
             return mealsList;
         }
@@ -68,10 +68,10 @@ namespace FitDiary.Api.Controllers
         [HttpGet]
         [Route("{date:datetime}", Name = "GetMealByDate")]
         [ResponseType(typeof(IEnumerable<Meal>))]
-        public IEnumerable<MealDTO> GetMeal(DateTime date)
+        public IEnumerable<MealForListingDTO> GetMeal(DateTime date)
         {
             var meals = db.Meals.Select(m =>
-            new MealDTO
+            new MealForListingDTO
             {
                 Id = m.Id,
                 Date = m.Date,
@@ -82,7 +82,7 @@ namespace FitDiary.Api.Controllers
                 TotalSugar = m.TotalSugar
             })
             .Where(m => DbFunctions.TruncateTime(m.Date) == date);
-            var mealsList = meals.ToList<MealDTO>();
+            var mealsList = meals.ToList<MealForListingDTO>();
 
             return mealsList;
         }
