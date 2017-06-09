@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FitDiary.Contracts.DTOs.Diet
+﻿namespace FitDiary.Contracts.DTOs.Diet
 {
-    public class ProductInMealInsertDTO
+    public class ProductInMealInsertOrUpdateDTO
     {
         public double AmountInGrams { get; set; }
         public int ProductId { get; set; }

@@ -154,6 +154,7 @@
       <DependentUpon>201702271532023_testChange.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Excercise.cs" />
     <Compile Include="Models\ExcerciseCategory.cs" />
     <Compile Include="DAL\FitDiaryApiContext.cs" />

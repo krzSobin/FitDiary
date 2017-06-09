@@ -4,23 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitDiary.SecuredApi.Models.Training
 {
-    public class Excercise
+    public class Muscle
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
 
-
-        public virtual ICollection<MuscleInExcercise> Muscles { get; set; }
-        public virtual ICollection<ExcerciseSerie> Series { get; set; }
-    }
-
-    public enum Muscles
-    {
-        Chest,
-        Back,
-        Triceps,
-        Biceps
+        public virtual ICollection<MuscleInExcercise> Excercises { get; set; }
     }
 }

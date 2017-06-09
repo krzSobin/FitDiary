@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using FitDiary.SecuredApi.Models.Diet;
 using System.Data.Entity;
+using FitDiary.SecuredApi.Models.Training;
 
 namespace FitDiary.SecuredApi.Models
 {
@@ -50,5 +51,11 @@ namespace FitDiary.SecuredApi.Models
         public DbSet<FoodProductCategory> FoodProductCategories { get; set; }
         public DbSet<ProductInMeal> ProductsInMeal { get; set; }
         public DbSet<BodyMeasurements> BodyMeasurements { get; set; }
+        public DbSet<BodyGoals> BodyGoals { get; set; }
+
+        public DbSet<Excercise> Excercises { get; set; }
+        public DbSet<ExcerciseSerie> ExcerciseSeries { get; set; }
+        public DbSet<Muscle> Muscles { get; set; }
+        public DbSet<MuscleInExcercise> MusclesInExcercise { get; set; }
     }
 }

@@ -29,17 +29,17 @@ namespace FitDiary.Api.Controllers
                         new ProductInMealDTO
                         {
                             MealId = p.MealId,
-                            AmountInGrams = p.AmountInGrams,
-                            Product = new FoodProductDTO
-                            {
-                                CarboPer100g = p.Product.CarboPer100g,
-                                FatsPer100g = p.Product.FatsPer100g,
-                                ProteinsPer100g = p.Product.ProteinsPer100g,
-                                SugarPer100g = p.Product.SugarPer100g,
-                                Category = "TODO",
-                                KCalPer100g = p.Product.KCalPer100g,
-                                Name = p.Product.Name
-                            }
+                            AmountInGrams = p.AmountInGrams
+                            //Product = new FoodProductDTO
+                            //{
+                            //    CarboPer100g = p.Product.CarboPer100g,
+                            //    FatsPer100g = p.Product.FatsPer100g,
+                            //    ProteinsPer100g = p.Product.ProteinsPer100g,
+                            //    SugarPer100g = p.Product.SugarPer100g,
+                            //    Category = "TODO",
+                            //    KCalPer100g = p.Product.KCalPer100g,
+                            //    Name = p.Product.Name
+                            //}
                         })
                 .Where(p => p.MealId == mealId);
 

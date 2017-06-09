@@ -25,5 +25,17 @@ namespace FitDiary.SecuredApi.Controllers
 
             return userData;
         }
+
+        [HttpGet]
+        [Route("goals")]
+        public async Task<BodyGoalsDTO> GetUserBodyGoals()
+        {
+            //var userId = HttpContext.Current.User.Identity.GetUserId();
+            var userData = await _userSrv.GetUserBodyGoals("3");
+
+            return userData;
+        }
+
+        
     }
 }

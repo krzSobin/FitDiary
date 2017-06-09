@@ -24,5 +24,18 @@ namespace FitDiary.SecuredApi.Services
                 return result;
             }
         }
+
+        public async Task<BodyGoalsDTO> GetUserBodyGoals(string id)
+        {
+            var sql = @"SELECT b.Id, b.StartDate, b.EndDate, b.WeightInKg, b.ChestInCm, b.WaistInCm, b.Status
+                                        FROM [BodyGoals] b";
+
+            using (IDbConnection con = new SqlConnection(_connectionString))
+            {
+                var result = await con.QueryFirstOrDefaultAsync<BodyGoalsDTO>(sql, new { Id = id });
+
+                return result;
+            }
+        }
     }
 }

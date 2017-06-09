@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FitDiary.Contracts.DTOs.Diet
 {
-    public class MealInsertDTO
+    public class MealInsertOrUpdateDTO
     {
         public string Name { get; set; }
 
@@ -11,6 +11,6 @@ namespace FitDiary.Contracts.DTOs.Diet
 
         public string UserId { get; set; }
 
-        public IEnumerable<ProductInMealInsertDTO> Products { get; set; }
+        public IEnumerable<ProductInMealInsertOrUpdateDTO> Products { get; set; }
     }
 }

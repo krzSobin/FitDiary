@@ -33,7 +33,7 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<IEnumerable<MealForListingDTO>> GetMealsByDAyAsync(DateTime mealsDay)
+        public async Task<IEnumerable<MealForListingDTO>> GetMealsByDAyAsync(DateTime mealsDay, string userId)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -43,10 +43,10 @@ namespace FitDiary.SecuredApi.Services.Diet
                             FROM [Meals] m
                             JOIN [ProductInMeals] pim on pim.mealId = m.Id
                             JOIN [FoodProducts] fp on fp.id = pim.productId
-                            WHERE datediff(day, m.date, @MealsDay) = 0
+                            WHERE datediff(day, m.date, @MealsDay) = 0 AND m.userId = @UserId
                             GROUP BY m.id, m.date";
 
-                var result = await con.QueryAsync<MealForListingDTO>(sql, new { MealsDay = mealsDay });
+                var result = await con.QueryAsync<MealForListingDTO>(sql, new { MealsDay = mealsDay, UserId = userId });
 
                 return result;
             }
@@ -94,10 +94,48 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<int> AddMeal(MealInsertDTO meal)
+        public async Task<int> AddMeal(MealInsertOrUpdateDTO meal)
         {
             int mealId;
             var sqlForMeals = @"INSERT INTO [Meals] ([Name], [Date], [UserId])
+                                VALUES(@Name, @Date, @UserId);
+                                SELECT SCOPE_IDENTITY();";
+
+            var sqlForProducts = @"INSERT INTO [ProductInMeals] ([AmountInGrams], [ProductId], [MealId])
+                                VALUES(@AmountInGrams, @ProductId, @MealId)";
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (var tran = con.BeginTransaction())
+                {
+                    try
+                    {
+
+                        mealId = await con.QueryFirstOrDefaultAsync<int>(sqlForMeals, new { Name = meal.Name, Date = meal.Date, UserId = meal.UserId }, tran);
+                        foreach (var productInMeal in meal.Products)
+                        {
+                            await con.ExecuteAsync(sqlForProducts, new { AmountInGrams = productInMeal.AmountInGrams, ProductId = productInMeal.ProductId, MealId = mealId }, tran);
+                        }
+
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                        throw;
+                    }
+                }
+
+                return mealId;
+            }
+        }
+
+        public async Task<int> UpdateMeal(MealInsertOrUpdateDTO meal)
+        {
+            int mealId;
+            var sqlForMeals = @"UPDATE [Meals]
+                                SET ([Name], [Date], [UserId])
                                 VALUES(@Name, @Date, @UserId);
                                 SELECT SCOPE_IDENTITY();";
 
