@@ -38,7 +38,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
 
         [HttpGet]
         [Route("{id:int}", Name = "GetFoodProductById")]
-        [ResponseType(typeof(FoodProduct))]
+        [ResponseType(typeof(FoodProductDTO))]
         public async Task<IHttpActionResult> GetFoodProduct(int id)
         {
             var product = await _foodProdSrv.GetFoodProductAsync(id);
@@ -108,19 +108,21 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // DELETE: api/FoodProducts/5
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(FoodProduct))]
+        [ResponseType(typeof(FoodProductDTO))]
         public async Task<IHttpActionResult> DeleteFoodProduct(int id)
         {
-            FoodProduct foodProduct = await db.FoodProducts.FindAsync(id);
+            var foodProduct = await _foodProdSrv.GetFoodProductAsync(id);
             if (foodProduct == null)
             {
                 return NotFound();
             }
 
-            db.FoodProducts.Remove(foodProduct);
-            await db.SaveChangesAsync();
+            if(await _foodProdSrv.DeleteFoodProductAsync(id))
+            {
+                return Ok(foodProduct);
+            }
 
-            return Ok(foodProduct);
+            return new System.Web.Http.Results.StatusCodeResult(HttpStatusCode.Gone, this);
         }
 
         protected override void Dispose(bool disposing)

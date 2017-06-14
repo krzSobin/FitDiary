@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
-using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Models.Diet;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,8 @@ namespace FitDiary.SecuredApi.Services.Diet
     public class FoodProductsService
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString;
-        private readonly ApplicationDbContext _db = new ApplicationDbContext(); //TODO DI
 
+        #region GetProducts
         public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync()
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
@@ -29,7 +28,8 @@ namespace FitDiary.SecuredApi.Services.Diet
                 return result;
             }
         }
-
+        #endregion
+        #region GetProducts(params)
         public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync(FoodProductQueryParams queryParams)//TODO check if null
         {
             string productsQuery;
@@ -91,12 +91,13 @@ namespace FitDiary.SecuredApi.Services.Diet
 
             return sb.ToString();
         }
-
+        #endregion
+        #region GetProduct
         public async Task<FoodProductDTO> GetFoodProductAsync(int id)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                string sql = @"SELECT fp.id, fp.name, cat.name, fp.carboPer100g, fp.proteinsPer100g, fp.fatsPer100g, fp.sugarPer100g, fp.kcalPer100g
+                string sql = @"SELECT fp.id, fp.name, cat.name AS Category, fp.carboPer100g, fp.proteinsPer100g, fp.fatsPer100g, fp.sugarPer100g, fp.kcalPer100g
                                         FROM [FoodProducts] fp
                                         JOIN [FoodProductCategories] cat on fp.categoryId = cat.id
                                         WHERE fp.Id = @Id";
@@ -106,5 +107,18 @@ namespace FitDiary.SecuredApi.Services.Diet
                 return result.SingleOrDefault();
             }
         }
+        #endregion
+        #region DeleteProduct
+        public async Task<bool> DeleteFoodProductAsync(int id)
+        {
+            using (IDbConnection con = new SqlConnection(_connectionString))
+            {
+                string sql = @"DELETE FROM [FoodProducts]
+                               WHERE Id = @Id";
+
+                return await con.ExecuteAsync(sql, new { Id = id }) > 0;
+            }
+        }
+        #endregion
     }
 }
