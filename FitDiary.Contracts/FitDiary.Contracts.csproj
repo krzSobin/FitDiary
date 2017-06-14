@@ -51,6 +51,7 @@
     <Compile Include="DTOs\Diet\ShortProductInMealDTO.cs" />
     <Compile Include="DTOs\Training\ExcerciseForListingDTO.cs" />
     <Compile Include="DTOs\Training\MuscleDTO.cs" />
+    <Compile Include="DTOs\Training\WorkoutDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,9 +16,9 @@ namespace FitDiary.SecuredApi.Services.Training
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var sqlForExcercises = @"SELECT m.Id, m.Name
-                                         FROM [Muscles] m";
-                return await con.QueryAsync<MuscleDTO>(sqlForExcercises);
+                var sql = @"SELECT m.Id, m.Name
+                            FROM [Muscles] m";
+                return await con.QueryAsync<MuscleDTO>(sql);
             }
         }
 

@@ -184,6 +184,7 @@
     <Compile Include="Controllers\Diet\ProductsInMealController.cs" />
     <Compile Include="Controllers\Training\ExcercisesController.cs" />
     <Compile Include="Controllers\Training\MusclesController.cs" />
+    <Compile Include="Controllers\Training\WorkoutsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -291,6 +292,7 @@
     <Compile Include="Services\Diet\ProductsInMealService.cs" />
     <Compile Include="Services\Training\ExcercisesService.cs" />
     <Compile Include="Services\Training\MusclesService.cs" />
+    <Compile Include="Services\Training\WorkoutsService.cs" />
     <Compile Include="Services\UsersService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
