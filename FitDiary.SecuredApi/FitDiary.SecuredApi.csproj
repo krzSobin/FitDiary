@@ -189,81 +189,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705241325370_More data in user.cs" />
-    <Compile Include="Migrations\201705241325370_More data in user.Designer.cs">
-      <DependentUpon>201705241325370_More data in user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705241349331_userId in meal.cs" />
-    <Compile Include="Migrations\201705241349331_userId in meal.Designer.cs">
-      <DependentUpon>201705241349331_userId in meal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705241358087_changes in user.cs" />
-    <Compile Include="Migrations\201705241358087_changes in user.Designer.cs">
-      <DependentUpon>201705241358087_changes in user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705251131579_Changes.cs" />
-    <Compile Include="Migrations\201705251131579_Changes.Designer.cs">
-      <DependentUpon>201705251131579_Changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705251134376_Less in user temporary.cs" />
-    <Compile Include="Migrations\201705251134376_Less in user temporary.Designer.cs">
-      <DependentUpon>201705251134376_Less in user temporary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705251308314_new version.cs" />
-    <Compile Include="Migrations\201705251308314_new version.Designer.cs">
-      <DependentUpon>201705251308314_new version.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705261109103_Added body measurements.cs" />
-    <Compile Include="Migrations\201705261109103_Added body measurements.Designer.cs">
-      <DependentUpon>201705261109103_Added body measurements.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705261130147_Fix body measurement.cs" />
-    <Compile Include="Migrations\201705261130147_Fix body measurement.Designer.cs">
-      <DependentUpon>201705261130147_Fix body measurement.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705261132189_Fix body measurement v2.cs" />
-    <Compile Include="Migrations\201705261132189_Fix body measurement v2.Designer.cs">
-      <DependentUpon>201705261132189_Fix body measurement v2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705261351525_fix.cs" />
-    <Compile Include="Migrations\201705261351525_fix.Designer.cs">
-      <DependentUpon>201705261351525_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706051222047_User id as string.cs" />
-    <Compile Include="Migrations\201706051222047_User id as string.Designer.cs">
-      <DependentUpon>201706051222047_User id as string.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706051239333_Added virtual keyword.cs" />
-    <Compile Include="Migrations\201706051239333_Added virtual keyword.Designer.cs">
-      <DependentUpon>201706051239333_Added virtual keyword.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706090834043_Training.cs" />
-    <Compile Include="Migrations\201706090834043_Training.Designer.cs">
-      <DependentUpon>201706090834043_Training.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706090853427_Muscles.cs" />
-    <Compile Include="Migrations\201706090853427_Muscles.Designer.cs">
-      <DependentUpon>201706090853427_Muscles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706090855325_Muscles fix.cs" />
-    <Compile Include="Migrations\201706090855325_Muscles fix.Designer.cs">
-      <DependentUpon>201706090855325_Muscles fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706091018508_Workout.cs" />
-    <Compile Include="Migrations\201706091018508_Workout.Designer.cs">
-      <DependentUpon>201706091018508_Workout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706091112244_Excercises changes.cs" />
-    <Compile Include="Migrations\201706091112244_Excercises changes.Designer.cs">
-      <DependentUpon>201706091112244_Excercises changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706091115122_Excercises changes v2.cs" />
-    <Compile Include="Migrations\201706091115122_Excercises changes v2.Designer.cs">
-      <DependentUpon>201706091115122_Excercises changes v2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706091117114_Excercises changes v3.cs" />
-    <Compile Include="Migrations\201706091117114_Excercises changes v3.Designer.cs">
-      <DependentUpon>201706091117114_Excercises changes v3.cs</DependentUpon>
+    <Compile Include="Migrations\201706271904201_Try.cs" />
+    <Compile Include="Migrations\201706271904201_Try.Designer.cs">
+      <DependentUpon>201706271904201_Try.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -325,62 +253,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705241325370_More data in user.resx">
-      <DependentUpon>201705241325370_More data in user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705241349331_userId in meal.resx">
-      <DependentUpon>201705241349331_userId in meal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705241358087_changes in user.resx">
-      <DependentUpon>201705241358087_changes in user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705251131579_Changes.resx">
-      <DependentUpon>201705251131579_Changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705251134376_Less in user temporary.resx">
-      <DependentUpon>201705251134376_Less in user temporary.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705251308314_new version.resx">
-      <DependentUpon>201705251308314_new version.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705261109103_Added body measurements.resx">
-      <DependentUpon>201705261109103_Added body measurements.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705261130147_Fix body measurement.resx">
-      <DependentUpon>201705261130147_Fix body measurement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705261132189_Fix body measurement v2.resx">
-      <DependentUpon>201705261132189_Fix body measurement v2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705261351525_fix.resx">
-      <DependentUpon>201705261351525_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706051222047_User id as string.resx">
-      <DependentUpon>201706051222047_User id as string.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706051239333_Added virtual keyword.resx">
-      <DependentUpon>201706051239333_Added virtual keyword.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706090834043_Training.resx">
-      <DependentUpon>201706090834043_Training.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706090853427_Muscles.resx">
-      <DependentUpon>201706090853427_Muscles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706090855325_Muscles fix.resx">
-      <DependentUpon>201706090855325_Muscles fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706091018508_Workout.resx">
-      <DependentUpon>201706091018508_Workout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706091112244_Excercises changes.resx">
-      <DependentUpon>201706091112244_Excercises changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706091115122_Excercises changes v2.resx">
-      <DependentUpon>201706091115122_Excercises changes v2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706091117114_Excercises changes v3.resx">
-      <DependentUpon>201706091117114_Excercises changes v3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706271904201_Try.resx">
+      <DependentUpon>201706271904201_Try.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

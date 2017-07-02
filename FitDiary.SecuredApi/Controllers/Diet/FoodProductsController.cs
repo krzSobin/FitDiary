@@ -1,4 +1,5 @@
 ﻿using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.Contracts.DTOs.Diet.FoodProducts;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Models.Diet;
 using FitDiary.SecuredApi.Services.Diet;
@@ -22,7 +23,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         private readonly FoodProductsService _foodProdSrv = new FoodProductsService();
 
         // GET: api/FoodProducts
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("")]
         [ResponseType(typeof(IEnumerable<FoodProduct>))]
@@ -91,18 +92,17 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // POST: api/FoodProducts
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(FoodProduct))]
-        public async Task<IHttpActionResult> PostFoodProduct(FoodProduct foodProduct)
+        [ResponseType(typeof(ProductInsertDTO))]
+        public async Task<IHttpActionResult> PostFoodProduct(ProductInsertDTO foodProduct)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.FoodProducts.Add(foodProduct);
-            await db.SaveChangesAsync();
+            var insertedId = await _foodProdSrv.PostFoodProductAsync(foodProduct);
 
-            return CreatedAtRoute("GetFoodProductById", new { id = foodProduct.Id }, foodProduct);
+            return CreatedAtRoute("GetFoodProductById", new { id = insertedId }, foodProduct);
         }
 
         // DELETE: api/FoodProducts/5

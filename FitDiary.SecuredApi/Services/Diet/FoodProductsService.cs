@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.Contracts.DTOs.Diet.FoodProducts;
 using FitDiary.SecuredApi.Models.Diet;
 using System;
 using System.Collections.Generic;
@@ -105,6 +106,30 @@ namespace FitDiary.SecuredApi.Services.Diet
                 var result = await con.QueryAsync<FoodProductDTO>(sql, new { Id = id });
 
                 return result.SingleOrDefault();
+            }
+        }
+        #endregion
+        #region PostProduct
+        public async Task<int> PostFoodProductAsync(ProductInsertDTO product)
+        {
+            using (IDbConnection con = new SqlConnection(_connectionString))
+            {
+                string sql = @"INSERT INTO [FoodProducts] (fp.name, fp.categoryId , fp.carboPer100g, fp.proteinsPer100g, fp.fatsPer100g, fp.sugarPer100g, fp.kcalPer100g)
+                               VALUES (@Name, @CategoryId, @Carbo, @Proteins, @Fat, @Sugar, @Kcal);
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                var insertedId = await con.QueryFirstOrDefaultAsync<int>(sql, new
+                {
+                    Name = product.Name,
+                    CategoryId = 2,//TODO zmienic
+                    Carbo = product.CarboPer100g,
+                    Proteins = product.ProteinsPer100g,
+                    Fat = product.FatsPer100g,
+                    Sugar = product.SugarPer100g,
+                    Kcal = product.KCalPer100g
+                });
+
+                return insertedId;
             }
         }
         #endregion

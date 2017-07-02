@@ -6,9 +6,6 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
-using FitDiary.SecuredApi.Models.Diet;
-using Dapper.Contrib.Extensions;
-using System.Web.Http;
 
 namespace FitDiary.SecuredApi.Services.Diet
 {
@@ -26,8 +23,8 @@ namespace FitDiary.SecuredApi.Services.Diet
                                                             FROM [Meals] m
                                                             JOIN [ProductInMeals] pim on pim.mealId = m.Id
                                                             JOIN [FoodProducts] fp on fp.id = pim.productId
-                                                            WHERE m.userId = @UserId
-															group by m.id, m.date", new { UserId = userId });
+                                                            
+															group by m.id, m.date", new { UserId = userId });//WHERE m.userId = @UserId
 
                 return result;
             }

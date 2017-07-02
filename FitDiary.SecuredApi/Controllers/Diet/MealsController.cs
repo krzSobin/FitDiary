@@ -17,7 +17,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
-    [Authorize]
+    //[Authorize]
     [EnableCors("*", "*", "*")]
     [RoutePrefix("api/meals")]
     public class MealsController : ApiController
