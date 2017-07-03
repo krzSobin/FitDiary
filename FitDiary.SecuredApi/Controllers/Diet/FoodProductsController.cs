@@ -15,7 +15,6 @@ using System.Web.Http.Description;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
-    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/foodProducts")]
     public class FoodProductsController : ApiController
     {
