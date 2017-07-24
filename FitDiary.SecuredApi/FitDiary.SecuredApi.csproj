@@ -192,9 +192,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201706271904201_Try.cs" />
-    <Compile Include="Migrations\201706271904201_Try.Designer.cs">
-      <DependentUpon>201706271904201_Try.cs</DependentUpon>
+    <Compile Include="Migrations\201707181414539_Initial.cs" />
+    <Compile Include="Migrations\201707181414539_Initial.Designer.cs">
+      <DependentUpon>201707181414539_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -206,7 +206,6 @@
     <Compile Include="Models\Diet\FoodProductQueryParams.cs" />
     <Compile Include="Models\Diet\Meal.cs" />
     <Compile Include="Models\Diet\ProductInMeal.cs" />
-    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Training\Excercise.cs" />
     <Compile Include="Models\Training\ExcerciseQueryParams.cs" />
@@ -245,6 +244,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Diet\" />
+    <Folder Include="Training\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -256,8 +257,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706271904201_Try.resx">
-      <DependentUpon>201706271904201_Try.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707181414539_Initial.resx">
+      <DependentUpon>201707181414539_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

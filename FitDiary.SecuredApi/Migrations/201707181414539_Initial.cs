@@ -3,7 +3,7 @@ namespace FitDiary.SecuredApi.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Try : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -126,11 +126,12 @@ namespace FitDiary.SecuredApi.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
-                        UserId = c.String(maxLength: 128),
+                        UserId = c.String(),
+                        User_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
-                .Index(t => t.UserId);
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.User_Id);
             
             CreateTable(
                 "dbo.ProductInMeals",
@@ -151,7 +152,7 @@ namespace FitDiary.SecuredApi.Migrations
                 "dbo.AspNetUsers",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                         Age = c.Int(nullable: false),
                         HeightInCm = c.Int(nullable: false),
                         Weight = c.Double(nullable: false),
@@ -181,7 +182,7 @@ namespace FitDiary.SecuredApi.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.String(nullable: false, maxLength: 128),
+                        UserId = c.Int(nullable: false),
                         ClaimType = c.String(),
                         ClaimValue = c.String(),
                     })
@@ -195,7 +196,7 @@ namespace FitDiary.SecuredApi.Migrations
                     {
                         LoginProvider = c.String(nullable: false, maxLength: 128),
                         ProviderKey = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(nullable: false, maxLength: 128),
+                        UserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
@@ -205,8 +206,8 @@ namespace FitDiary.SecuredApi.Migrations
                 "dbo.AspNetUserRoles",
                 c => new
                     {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
+                        UserId = c.Int(nullable: false),
+                        RoleId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
@@ -218,7 +219,7 @@ namespace FitDiary.SecuredApi.Migrations
                 "dbo.AspNetRoles",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
@@ -229,7 +230,7 @@ namespace FitDiary.SecuredApi.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Meals", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Meals", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
@@ -250,7 +251,7 @@ namespace FitDiary.SecuredApi.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.ProductInMeals", new[] { "MealId" });
             DropIndex("dbo.ProductInMeals", new[] { "ProductId" });
-            DropIndex("dbo.Meals", new[] { "UserId" });
+            DropIndex("dbo.Meals", new[] { "User_Id" });
             DropIndex("dbo.FoodProducts", new[] { "CategoryId" });
             DropIndex("dbo.ExcerciseSeries", new[] { "ExcerciseId" });
             DropIndex("dbo.ExcerciseSeries", new[] { "WorkoutId" });
