@@ -68,7 +68,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
         public async Task<IHttpActionResult> GetMealAsync(DateTime date)
         {
-            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var userId = HttpContext.Current.User.Identity.GetUserId<int>();
             var result = await _mealsSrv.GetMealsByDAyAsync(date, userId);
 
             return Ok(result);
@@ -119,7 +119,8 @@ namespace FitDiary.SecuredApi.Controllers.Diet
             {
                 return BadRequest(ModelState);
             }
-
+            
+            meal.UserId = HttpContext.Current.User.Identity.GetUserId<int>();
             var result = await _mealsSrv.AddMeal(meal);
 
             return CreatedAtRoute("GetMealById", new { id = result }, meal);

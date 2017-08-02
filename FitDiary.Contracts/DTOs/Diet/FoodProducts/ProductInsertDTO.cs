@@ -15,6 +15,6 @@ namespace FitDiary.Contracts.DTOs.Diet.FoodProducts
         public double CarboPer100g { get; set; }
         public double SugarPer100g { get; set; }
         public double KCalPer100g { get; set; }
-        public string Category { get; set; } = "blabla"; //TODO zmienic
+        public int CategoryId { get; set; }
     }
 }

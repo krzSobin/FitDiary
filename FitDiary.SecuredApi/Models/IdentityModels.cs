@@ -28,8 +28,7 @@ namespace FitDiary.SecuredApi.Models
         public double BodyFat { get; set; }
 
         public DateTime JoinDate { get; set; } = DateTime.UtcNow;
-
-        public int BodyMeasurementsId { get; set; }
+        
         public virtual BodyMeasurements BodyMeasurements { get; set; }
         //public virtual BodyGoals BodyGoals { get; set; }
 

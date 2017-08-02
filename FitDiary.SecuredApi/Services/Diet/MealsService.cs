@@ -30,7 +30,7 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
 
-        public async Task<IEnumerable<MealForListingDTO>> GetMealsByDAyAsync(DateTime mealsDay, string userId)
+        public async Task<IEnumerable<MealForListingDTO>> GetMealsByDAyAsync(DateTime mealsDay, int userId)
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
@@ -94,7 +94,7 @@ namespace FitDiary.SecuredApi.Services.Diet
         public async Task<int> AddMeal(MealInsertOrUpdateDTO meal)
         {
             int mealId;
-            var sqlForMeals = @"INSERT INTO [Meals] ([Name], [Date], [UserId])
+            var sqlForMeals = @"INSERT INTO [Meals] ([Name], [Date], [User_Id])
                                 VALUES(@Name, @Date, @UserId);
                                 SELECT SCOPE_IDENTITY();";
 

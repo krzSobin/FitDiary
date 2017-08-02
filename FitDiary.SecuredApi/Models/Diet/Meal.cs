@@ -16,8 +16,6 @@ namespace FitDiary.SecuredApi.Models.Diet
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         
-
-        public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<ProductInMeal> Products { get; set; }

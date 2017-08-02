@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using FitDiary.Contracts.DTOs.Diet;
+using FitDiary.Contracts.DTOs.Diet.FoodProductCategories;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,11 +12,11 @@ namespace FitDiary.SecuredApi.Services.Diet
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString; //TODO DI
 
-        public async Task<IEnumerable<FoodProductCategoryDTO>> GetCategoriesAsync()
+        public async Task<IEnumerable<CategorySelectDTO>> GetCategoriesAsync()
         {
             using (IDbConnection con = new SqlConnection(_connectionString))
             {
-                var result = await con.QueryAsync<FoodProductCategoryDTO>(@"SELECT Id, Name
+                var result = await con.QueryAsync<CategorySelectDTO>(@"SELECT Id, Name
                                         FROM [FoodProductCategories]");
 
                 return result;

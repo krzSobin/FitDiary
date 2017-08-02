@@ -1,4 +1,4 @@
-﻿using FitDiary.Contracts.DTOs.Diet;
+﻿using FitDiary.Contracts.DTOs.Diet.FoodProductCategories;
 using FitDiary.SecuredApi.Services.Diet;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // GET: api/foodCategories
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<FoodProductCategoryDTO>> GetCategoriesAsync()
+        public async Task<IEnumerable<CategorySelectDTO>> GetCategoriesAsync()
         {
             var meals = await _categorySrv.GetCategoriesAsync();
 

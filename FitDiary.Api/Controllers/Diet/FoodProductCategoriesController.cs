@@ -22,16 +22,16 @@ namespace FitDiary.Api.Controllers
         // GET: api/foodCategories
         [HttpGet]
         [Route("")]
-        public IEnumerable<FoodProductCategoryDTO> GetFoodProductCategories()
+        public IEnumerable<CategorySelectDTO> GetFoodProductCategories()
         {
             var categories = db.FoodProductCategories.Select(c =>
-            new FoodProductCategoryDTO
+            new CategorySelectDTO
             {
                 Id = c.Id,
                 Name = c.Name
             });
 
-            return categories.ToList<FoodProductCategoryDTO>();
+            return categories.ToList<CategorySelectDTO>();
         }
 
         // GET: api/FoodProductCategories/5

@@ -4,6 +4,6 @@
     {
         public double AmountInGrams { get; set; }
         public int ProductId { get; set; }
-        public int MealId { get; set; }
+        public int? MealId { get; set; }
     }
 }
