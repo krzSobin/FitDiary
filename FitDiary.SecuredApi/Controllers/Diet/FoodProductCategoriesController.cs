@@ -7,7 +7,6 @@ using System.Web.Http.Cors;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
-    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/foodCategories")]
     public class FoodProductCategoriesController : ApiController
     {
