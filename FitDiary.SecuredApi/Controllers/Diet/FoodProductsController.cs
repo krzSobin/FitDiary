@@ -33,7 +33,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
                 return await _foodProdSrv.GetFoodProductsAsync(queryParams);
             }
 
-            return await _foodProdSrv.GetFoodProductsAsync();
+            return await _foodProdSrv.GetFoodProductsAsync();//TODO return Ok
         }
 
         [HttpGet]
@@ -55,7 +55,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [HttpPut]
         [Route("{id:int}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutFoodProduct(int id, FoodProduct foodProduct)
+        public async Task<IHttpActionResult> PutFoodProduct(int id, ProductEditDTO foodProduct)
         {
             if (!ModelState.IsValid)
             {
@@ -66,26 +66,12 @@ namespace FitDiary.SecuredApi.Controllers.Diet
             {
                 return BadRequest();
             }
-
-            db.Entry(foodProduct).State = EntityState.Modified;
-
-            try
+            if (await _foodProdSrv.PutFoodProductAsync(foodProduct))
             {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FoodProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Ok();
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.BadRequest);
         }
 
         // POST: api/FoodProducts
@@ -110,7 +96,7 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [ResponseType(typeof(FoodProductDTO))]
         public async Task<IHttpActionResult> DeleteFoodProduct(int id)
         {
-            var foodProduct = await _foodProdSrv.GetFoodProductAsync(id);
+            var foodProduct = await _foodProdSrv.GetFoodProductAsync(id);//zmienic na check if exists
             if (foodProduct == null)
             {
                 return NotFound();

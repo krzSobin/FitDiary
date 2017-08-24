@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FitDiary.SecuredApi.Models
+namespace FitDiary.SecuredApi.Models.User
 {
     public class BodyGoals
     {

@@ -46,6 +46,7 @@
     <Compile Include="DTOs\Diet\FoodProductCategories\CategoryInsertDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategories\CategorySelectDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductDTO.cs" />
+    <Compile Include="DTOs\Diet\FoodProducts\ProductEditDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProducts\ProductInsertDTO.cs" />
     <Compile Include="DTOs\Diet\MealForListingDTO.cs" />
     <Compile Include="DTOs\Diet\MealInsertDTO.cs" />

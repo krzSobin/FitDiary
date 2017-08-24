@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FitDiary.Contracts.DTOs.Diet.FoodProducts
 {
-    public class ProductInsertDTO
+    public class ProductEditDTO
     {
-        public int Id { get; set; } //TODO chyba mozna usunąć
+        public int Id { get; set; }
         public string Name { get; set; }
         public double ProteinsPer100g { get; set; }
         public double FatsPer100g { get; set; }

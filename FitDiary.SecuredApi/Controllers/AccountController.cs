@@ -15,6 +15,7 @@ using Microsoft.Owin.Security.OAuth;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Providers;
 using FitDiary.SecuredApi.Results;
+using FitDiary.SecuredApi.Models.User;
 
 namespace FitDiary.SecuredApi.Controllers
 {

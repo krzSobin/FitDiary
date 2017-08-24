@@ -133,6 +133,33 @@ namespace FitDiary.SecuredApi.Services.Diet
             }
         }
         #endregion
+
+        #region PutProduct
+        public async Task<bool> PutFoodProductAsync(ProductEditDTO product)
+        {
+            using (IDbConnection con = new SqlConnection(_connectionString))
+            {
+                string sql = @"UPDATE [FoodProducts]
+                               SET fp.name = @Name, fp.categoryId = @CategoryId , fp.carboPer100g = @Carbo, fp.proteinsPer100g = @Proteins, fp.fatsPer100g = @Fat, fp.sugarPer100g = @Sugar, fp.kcalPer100g = @Kcal
+                               WHERE fp.id = @Id";
+
+                var rowsAffected = await con.ExecuteAsync(sql, new
+                {
+                    Name = product.Name,
+                    CategoryId = product.CategoryId,
+                    Carbo = product.CarboPer100g,
+                    Proteins = product.ProteinsPer100g,
+                    Fat = product.FatsPer100g,
+                    Sugar = product.SugarPer100g,
+                    Kcal = product.KCalPer100g,
+                    Id = product.Id
+                });
+
+                return rowsAffected > 0;
+            }
+        }
+        #endregion
+
         #region DeleteProduct
         public async Task<bool> DeleteFoodProductAsync(int id)
         {

@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Api", "FitDiary.Api\FitDiary.Api.csproj", "{BEB2DB2B-F447-4930-8971-5EB6B294BDD6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Contracts", "FitDiary.Contracts\FitDiary.Contracts.csproj", "{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.Client", "FitDiary.Client\FitDiary.Client.csproj", "{FBCA1600-E7EB-45E4-A639-4EB78CC33009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitDiary.SecuredApi", "FitDiary.SecuredApi\FitDiary.SecuredApi.csproj", "{C5A31B46-3B14-4E88-97EB-3DDE3BEC3E22}"
 EndProject
@@ -17,18 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BEB2DB2B-F447-4930-8971-5EB6B294BDD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEB2DB2B-F447-4930-8971-5EB6B294BDD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEB2DB2B-F447-4930-8971-5EB6B294BDD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEB2DB2B-F447-4930-8971-5EB6B294BDD6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7C78A6-16B6-49C2-B9FE-0BFCC81DB2BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBCA1600-E7EB-45E4-A639-4EB78CC33009}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5A31B46-3B14-4E88-97EB-3DDE3BEC3E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5A31B46-3B14-4E88-97EB-3DDE3BEC3E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A31B46-3B14-4E88-97EB-3DDE3BEC3E22}.Release|Any CPU.ActiveCfg = Release|Any CPU

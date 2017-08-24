@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using FitDiary.SecuredApi.Models;
+using FitDiary.SecuredApi.Models.User;
 
 namespace FitDiary.SecuredApi
 {
