@@ -1,5 +1,5 @@
-﻿using FitDiary.Contracts.DTOs;
-using FitDiary.SecuredApi.Services;
+﻿using FitDiary.Contracts.DTOs.User;
+using FitDiary.SecuredApi.Services.User;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,8 +8,7 @@ using System.Web.Http.Cors;
 
 namespace FitDiary.SecuredApi.Controllers
 {
-    [EnableCors("*", "*", "*")]
-    [RoutePrefix("api/user")]
+    [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
         private readonly UsersService _userSrv = new UsersService();
@@ -20,8 +19,8 @@ namespace FitDiary.SecuredApi.Controllers
         [Route("")]
         public async Task<UserDTO> GetUserDataAsync()
         {
-            var userId = HttpContext.Current.User.Identity.GetUserId();
-            var userData = await _userSrv.GetUserData(userId);
+            //var userId = HttpContext.Current.User.Identity.GetUserId<int>();
+            var userData = await _userSrv.GetUserData(2);
 
             return userData;
         }
@@ -31,11 +30,19 @@ namespace FitDiary.SecuredApi.Controllers
         public async Task<BodyGoalsDTO> GetUserBodyGoals()
         {
             //var userId = HttpContext.Current.User.Identity.GetUserId();
-            var userData = await _userSrv.GetUserBodyGoals("3");
+            var userData = await _userSrv.GetUserBodyGoals(2);
 
             return userData;
         }
 
-        
+        [HttpGet]
+        [Route("full")]
+        public async Task<UserFullInfoDTO> GetUserFullInfo()
+        {
+            //var userId = HttpContext.Current.User.Identity.GetUserId();
+            var userData = await _userSrv.GetUserFullInfo(2);
+
+            return userData;
+        }
     }
 }

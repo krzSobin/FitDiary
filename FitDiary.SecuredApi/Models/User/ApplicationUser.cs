@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
@@ -18,15 +19,12 @@ namespace FitDiary.SecuredApi.Models.User
             get { return base.Id; }
             set { base.Id = value; }
         }
-        public int Age { get; set; }
-        public int HeightInCm { get; set; }
-
-        public double Weight { get; set; }
-        public double BodyFat { get; set; }
+        public DateTime? Birthday { get; set; }
+        public int? HeightInCm { get; set; }
 
         public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
-        public virtual BodyMeasurements BodyMeasurements { get; set; }
+        public virtual ICollection<BodyMeasurements> BodyMeasurements { get; set; }
         //public virtual BodyGoals BodyGoals { get; set; }
 
 

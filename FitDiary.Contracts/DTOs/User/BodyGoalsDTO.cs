@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FitDiary.Contracts.DTOs
+namespace FitDiary.Contracts.DTOs.User
 {
     public class BodyGoalsDTO
     {

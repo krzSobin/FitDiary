@@ -200,6 +200,18 @@
     <Compile Include="Migrations\201707311405467_DeleteRedundantId.Designer.cs">
       <DependentUpon>201707311405467_DeleteRedundantId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708240941412_UserChanges.cs" />
+    <Compile Include="Migrations\201708240941412_UserChanges.Designer.cs">
+      <DependentUpon>201708240941412_UserChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708241129480_ManyMeasurementsPerUser.cs" />
+    <Compile Include="Migrations\201708241129480_ManyMeasurementsPerUser.Designer.cs">
+      <DependentUpon>201708241129480_ManyMeasurementsPerUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708241231283_MeasurementsIdentity.cs" />
+    <Compile Include="Migrations\201708241231283_MeasurementsIdentity.Designer.cs">
+      <DependentUpon>201708241231283_MeasurementsIdentity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -228,7 +240,7 @@
     <Compile Include="Services\Training\ExcercisesService.cs" />
     <Compile Include="Services\Training\MusclesService.cs" />
     <Compile Include="Services\Training\WorkoutsService.cs" />
-    <Compile Include="Services\UsersService.cs" />
+    <Compile Include="Services\User\UsersService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +279,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707311405467_DeleteRedundantId.resx">
       <DependentUpon>201707311405467_DeleteRedundantId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708240941412_UserChanges.resx">
+      <DependentUpon>201708240941412_UserChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708241129480_ManyMeasurementsPerUser.resx">
+      <DependentUpon>201708241129480_ManyMeasurementsPerUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708241231283_MeasurementsIdentity.resx">
+      <DependentUpon>201708241231283_MeasurementsIdentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

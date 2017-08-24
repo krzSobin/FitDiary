@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\BodyGoalsDTO.cs" />
+    <Compile Include="DTOs\User\BodyGoalsDTO.cs" />
     <Compile Include="DTOs\Diet\DietDayDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategories\CategoryInsertDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategories\CategorySelectDTO.cs" />
@@ -56,7 +56,9 @@
     <Compile Include="DTOs\Training\ExcerciseForListingDTO.cs" />
     <Compile Include="DTOs\Training\MuscleDTO.cs" />
     <Compile Include="DTOs\Training\WorkoutDTO.cs" />
-    <Compile Include="DTOs\UserDTO.cs" />
+    <Compile Include="DTOs\User\BodyMeasurementsDTO.cs" />
+    <Compile Include="DTOs\User\UserDTO.cs" />
+    <Compile Include="DTOs\User\UserFullInfoDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

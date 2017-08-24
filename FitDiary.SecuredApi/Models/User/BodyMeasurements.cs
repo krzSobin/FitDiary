@@ -8,12 +8,15 @@ namespace FitDiary.SecuredApi.Models.User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public double Id { get; set; }
+        public int Id { get; set; }
 
         public double? WeightInKg { get; set; }
+        public double? BodyFat { get; set; }
         public double? ChestInCm { get; set; }
         public double? WaistInCm { get; set; }
 
         public DateTime MeasurementDate { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }

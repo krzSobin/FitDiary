@@ -6,6 +6,7 @@ namespace FitDiary.SecuredApi.Migrations
     {
         public Configuration()
         {
+            AutomaticMigrationDataLossAllowed = true;
             AutomaticMigrationsEnabled = false;
         }
 
