@@ -1,13 +1,7 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using FitDiary.SecuredApi.Models.Diet;
 using System.Data.Entity;
 using FitDiary.SecuredApi.Models.Training;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using FitDiary.SecuredApi.Models.User;
 
 namespace FitDiary.SecuredApi.Models
