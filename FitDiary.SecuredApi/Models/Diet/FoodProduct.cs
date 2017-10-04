@@ -16,7 +16,7 @@ namespace FitDiary.SecuredApi.Models.Diet
         public double KCalPer100g { get; set; }
 
         public int CategoryId { get; set; }
-        public FoodProductCategory Category { get; set; }
+        public virtual FoodProductCategory Category { get; set; }
 
         //public virtual ICollection<ProductInMeal> Products { get; set; }
     }

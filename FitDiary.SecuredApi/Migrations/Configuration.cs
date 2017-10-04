@@ -39,6 +39,43 @@ namespace FitDiary.SecuredApi.Migrations
 
             //    await manager.CreateAsync(user, "Test123_");
             //}
+            IList<FoodProductCategory> categories = new List<FoodProductCategory>();
+
+            categories.Add(new FoodProductCategory
+            {
+                Id = 1,
+                Name = "miêso"
+            });
+            categories.Add(new FoodProductCategory
+            {
+                Id = 2,
+                Name = "zbo¿a"
+            });
+            categories.Add(new FoodProductCategory
+            {
+                Id = 3,
+                Name = "napoje"
+            });
+            categories.Add(new FoodProductCategory
+            {
+                Id = 4,
+                Name = "warzywa"
+            });
+            categories.Add(new FoodProductCategory
+            {
+                Id = 5,
+                Name = "ryby"
+            });
+            categories.Add(new FoodProductCategory
+            {
+                Id = 6,
+                Name = "owoce"
+            });
+
+            foreach (var category in categories)
+                context.FoodProductCategories.AddOrUpdate(category);
+
+            context.SaveChanges();
 
             IList<FoodProduct> products = new List<FoodProduct>();
 
@@ -50,7 +87,7 @@ namespace FitDiary.SecuredApi.Migrations
                 FatsPer100g = 0,
                 CarboPer100g = 98,
                 SugarPer100g = 98,
-                CategoryId = 7,
+                CategoryId = 1,
                 KCalPer100g = 400
             });
             products.Add(new FoodProduct

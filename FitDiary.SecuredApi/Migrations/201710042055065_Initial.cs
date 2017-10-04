@@ -25,13 +25,78 @@ namespace FitDiary.SecuredApi.Migrations
                 "dbo.BodyMeasurements",
                 c => new
                     {
-                        Id = c.Double(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         WeightInKg = c.Double(),
+                        BodyFat = c.Double(),
                         ChestInCm = c.Double(),
                         WaistInCm = c.Double(),
                         MeasurementDate = c.DateTime(nullable: false),
+                        User_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.AspNetUsers",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Birthday = c.DateTime(),
+                        HeightInCm = c.Int(),
+                        JoinDate = c.DateTime(nullable: false),
+                        Email = c.String(maxLength: 256),
+                        EmailConfirmed = c.Boolean(nullable: false),
+                        PasswordHash = c.String(),
+                        SecurityStamp = c.String(),
+                        PhoneNumber = c.String(),
+                        PhoneNumberConfirmed = c.Boolean(nullable: false),
+                        TwoFactorEnabled = c.Boolean(nullable: false),
+                        LockoutEndDateUtc = c.DateTime(),
+                        LockoutEnabled = c.Boolean(nullable: false),
+                        AccessFailedCount = c.Int(nullable: false),
+                        UserName = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
+            
+            CreateTable(
+                "dbo.AspNetUserClaims",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.Int(nullable: false),
+                        ClaimType = c.String(),
+                        ClaimValue = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.AspNetUserLogins",
+                c => new
+                    {
+                        LoginProvider = c.String(nullable: false, maxLength: 128),
+                        ProviderKey = c.String(nullable: false, maxLength: 128),
+                        UserId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        RoleId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.Excercises",
@@ -126,7 +191,6 @@ namespace FitDiary.SecuredApi.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
-                        UserId = c.String(),
                         User_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
@@ -149,73 +213,6 @@ namespace FitDiary.SecuredApi.Migrations
                 .Index(t => t.MealId);
             
             CreateTable(
-                "dbo.AspNetUsers",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Age = c.Int(nullable: false),
-                        HeightInCm = c.Int(nullable: false),
-                        Weight = c.Double(nullable: false),
-                        BodyFat = c.Double(nullable: false),
-                        JoinDate = c.DateTime(nullable: false),
-                        BodyMeasurementsId = c.Int(nullable: false),
-                        Email = c.String(maxLength: 256),
-                        EmailConfirmed = c.Boolean(nullable: false),
-                        PasswordHash = c.String(),
-                        SecurityStamp = c.String(),
-                        PhoneNumber = c.String(),
-                        PhoneNumberConfirmed = c.Boolean(nullable: false),
-                        TwoFactorEnabled = c.Boolean(nullable: false),
-                        LockoutEndDateUtc = c.DateTime(),
-                        LockoutEnabled = c.Boolean(nullable: false),
-                        AccessFailedCount = c.Int(nullable: false),
-                        UserName = c.String(nullable: false, maxLength: 256),
-                        BodyMeasurements_Id = c.Double(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.BodyMeasurements", t => t.BodyMeasurements_Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.BodyMeasurements_Id);
-            
-            CreateTable(
-                "dbo.AspNetUserClaims",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
-                        ClaimType = c.String(),
-                        ClaimValue = c.String(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.AspNetUserLogins",
-                c => new
-                    {
-                        LoginProvider = c.String(nullable: false, maxLength: 128),
-                        ProviderKey = c.String(nullable: false, maxLength: 128),
-                        UserId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.Int(nullable: false),
-                        RoleId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
-            
-            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -231,10 +228,6 @@ namespace FitDiary.SecuredApi.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Meals", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "BodyMeasurements_Id", "dbo.BodyMeasurements");
             DropForeignKey("dbo.ProductInMeals", "ProductId", "dbo.FoodProducts");
             DropForeignKey("dbo.ProductInMeals", "MealId", "dbo.Meals");
             DropForeignKey("dbo.FoodProducts", "CategoryId", "dbo.FoodProductCategories");
@@ -242,13 +235,11 @@ namespace FitDiary.SecuredApi.Migrations
             DropForeignKey("dbo.ExcerciseSeries", "ExcerciseId", "dbo.Excercises");
             DropForeignKey("dbo.MuscleInExcercises", "MuscleId", "dbo.Muscles");
             DropForeignKey("dbo.MuscleInExcercises", "ExcerciseId", "dbo.Excercises");
+            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.BodyMeasurements", "User_Id", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "BodyMeasurements_Id" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.ProductInMeals", new[] { "MealId" });
             DropIndex("dbo.ProductInMeals", new[] { "ProductId" });
             DropIndex("dbo.Meals", new[] { "User_Id" });
@@ -257,11 +248,13 @@ namespace FitDiary.SecuredApi.Migrations
             DropIndex("dbo.ExcerciseSeries", new[] { "WorkoutId" });
             DropIndex("dbo.MuscleInExcercises", new[] { "ExcerciseId" });
             DropIndex("dbo.MuscleInExcercises", new[] { "MuscleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.BodyMeasurements", new[] { "User_Id" });
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
             DropTable("dbo.ProductInMeals");
             DropTable("dbo.Meals");
             DropTable("dbo.FoodProducts");
@@ -271,6 +264,10 @@ namespace FitDiary.SecuredApi.Migrations
             DropTable("dbo.Muscles");
             DropTable("dbo.MuscleInExcercises");
             DropTable("dbo.Excercises");
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
             DropTable("dbo.BodyMeasurements");
             DropTable("dbo.BodyGoals");
         }

@@ -1,5 +1,6 @@
 ﻿using FitDiary.Contracts.DTOs.Diet;
 using FitDiary.Contracts.DTOs.Diet.FoodProducts;
+using FitDiary.SecuredApi.Diet.DAL;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Models.Diet;
 using FitDiary.SecuredApi.Services.Diet;
@@ -18,22 +19,33 @@ namespace FitDiary.SecuredApi.Controllers.Diet
     [RoutePrefix("api/foodProducts")]
     public class FoodProductsController : ApiController
     {
+        private readonly IFoodProductRepository _foodProductRepository;
         private readonly ApplicationDbContext db = new ApplicationDbContext();
         private readonly FoodProductsService _foodProdSrv = new FoodProductsService();
+
+        public FoodProductsController()
+        {
+            _foodProductRepository = new FoodProductRepository(new ApplicationDbContext());
+        }
+
+        public FoodProductsController(IFoodProductRepository foodProductRepository)
+        {
+            _foodProductRepository = foodProductRepository;
+        }
 
         // GET: api/FoodProducts
         //[Authorize]
         [HttpGet]
         [Route("")]
         [ResponseType(typeof(IEnumerable<FoodProduct>))]
-        public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync([FromUri] FoodProductQueryParams queryParams)
+        public async Task<IEnumerable<FoodProduct>> GetFoodProductsAsync([FromUri] FoodProductQueryParams queryParams)
         {
             if (queryParams != null)
             {
-                return await _foodProdSrv.GetFoodProductsAsync(queryParams);
+                return await _foodProductRepository.GetFoodProductsAsync(queryParams);
             }
 
-            return await _foodProdSrv.GetFoodProductsAsync();//TODO return Ok
+            return await _foodProductRepository.GetFoodProductsAsync();//TODO return Ok
         }
 
         [HttpGet]
