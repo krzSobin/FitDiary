@@ -1,6 +1,8 @@
-﻿using Dapper;
+﻿using AutoMapper;
+using Dapper;
 using FitDiary.Contracts.DTOs.Diet;
 using FitDiary.Contracts.DTOs.Diet.FoodProducts;
+using FitDiary.SecuredApi.Diet.DAL;
 using FitDiary.SecuredApi.Models.Diet;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,12 @@ namespace FitDiary.SecuredApi.Services.Diet
     public class FoodProductsService
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["FitDiarySecuredApiContext"].ConnectionString;
+        private readonly IFoodProductRepository _foodRepository;
+
+        public FoodProductsService(IFoodProductRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
 
         #region GetProducts
         public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync()
@@ -33,23 +41,17 @@ namespace FitDiary.SecuredApi.Services.Diet
         #region GetProducts(params)
         public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync(FoodProductQueryParams queryParams)//TODO check if null
         {
-            string productsQuery;
-
-            if (queryParams != null)
+            IEnumerable<FoodProduct> foodProducts;
+            if (queryParams == null)
             {
-                productsQuery = BuildSqlQuery(queryParams);
+                foodProducts = await _foodRepository.GetFoodProductsAsync();
             }
             else
             {
-                throw new ArgumentNullException(nameof(queryParams));
+                foodProducts = await _foodRepository.GetFoodProductsAsync(queryParams);
             }
 
-            using (IDbConnection con = new SqlConnection(_connectionString))
-            {
-                var result = await con.QueryAsync<FoodProductDTO>(productsQuery, new { CatName = queryParams.Category, ProdName = queryParams.Name, MaxSugar = queryParams.MaxSugar });
-
-                return result;
-            }
+            return Mapper.Map<IEnumerable<FoodProductDTO>>(foodProducts);
         }
 
         private string BuildSqlQuery(FoodProductQueryParams queryParams)
@@ -96,17 +98,14 @@ namespace FitDiary.SecuredApi.Services.Diet
         #region GetProduct
         public async Task<FoodProductDTO> GetFoodProductAsync(int id)
         {
-            using (IDbConnection con = new SqlConnection(_connectionString))
+            var foodProduct = await _foodRepository.GetGetFoodProductByIDAsync(id);
+
+            if (foodProduct == null)
             {
-                string sql = @"SELECT fp.id, fp.name, cat.name AS Category, fp.carboPer100g, fp.proteinsPer100g, fp.fatsPer100g, fp.sugarPer100g, fp.kcalPer100g
-                                        FROM [FoodProducts] fp
-                                        JOIN [FoodProductCategories] cat on fp.categoryId = cat.id
-                                        WHERE fp.Id = @Id";
-
-                var result = await con.QueryAsync<FoodProductDTO>(sql, new { Id = id });
-
-                return result.SingleOrDefault();
+                return null;
             }
+
+            return Mapper.Map<FoodProductDTO>(foodProduct);
         }
         #endregion
         #region PostProduct

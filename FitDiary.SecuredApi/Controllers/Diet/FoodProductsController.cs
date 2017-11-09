@@ -1,4 +1,5 @@
-﻿using FitDiary.Contracts.DTOs.Diet;
+﻿using AutoMapper;
+using FitDiary.Contracts.DTOs.Diet;
 using FitDiary.Contracts.DTOs.Diet.FoodProducts;
 using FitDiary.SecuredApi.Diet.DAL;
 using FitDiary.SecuredApi.Models;
@@ -20,32 +21,30 @@ namespace FitDiary.SecuredApi.Controllers.Diet
     public class FoodProductsController : ApiController
     {
         private readonly IFoodProductRepository _foodProductRepository;
-        private readonly ApplicationDbContext db = new ApplicationDbContext();
-        private readonly FoodProductsService _foodProdSrv = new FoodProductsService();
+        private readonly FoodProductsService _foodProdSrv;
 
         public FoodProductsController()
         {
             _foodProductRepository = new FoodProductRepository(new ApplicationDbContext());
+            _foodProdSrv = new FoodProductsService(_foodProductRepository);
         }
 
         public FoodProductsController(IFoodProductRepository foodProductRepository)
         {
             _foodProductRepository = foodProductRepository;
+            _foodProdSrv = new FoodProductsService(_foodProductRepository);
         }
 
         // GET: api/FoodProducts
         //[Authorize]
         [HttpGet]
         [Route("")]
-        [ResponseType(typeof(IEnumerable<FoodProduct>))]
-        public async Task<IEnumerable<FoodProduct>> GetFoodProductsAsync([FromUri] FoodProductQueryParams queryParams)
+        [ResponseType(typeof(IEnumerable<FoodProductDTO>))]
+        public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync([FromUri] FoodProductQueryParams queryParams)
         {
-            if (queryParams != null)
-            {
-                return await _foodProductRepository.GetFoodProductsAsync(queryParams);
-            }
+            var products = await _foodProdSrv.GetFoodProductsAsync(queryParams);
 
-            return await _foodProductRepository.GetFoodProductsAsync();//TODO return Ok
+            return products;
         }
 
         [HttpGet]
@@ -108,33 +107,24 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [ResponseType(typeof(FoodProductDTO))]
         public async Task<IHttpActionResult> DeleteFoodProduct(int id)
         {
-            var foodProduct = await _foodProdSrv.GetFoodProductAsync(id);//zmienic na check if exists
+
+            var foodProduct = await _foodProductRepository.GetGetFoodProductByIDAsync(id);//zmienic na check if exists
             if (foodProduct == null)
             {
                 return NotFound();
             }
 
-            if(await _foodProdSrv.DeleteFoodProductAsync(id))
+            if(_foodProductRepository.DeleteFoodProduct(foodProduct))
             {
                 return Ok(foodProduct);
             }
 
-            return new System.Web.Http.Results.StatusCodeResult(HttpStatusCode.Gone, this);
+            return BadRequest("Usuwanie nie powiodło sie");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-            db.Dispose();
-        }
-
-        private bool FoodProductExists(int id)
-        {
-            return db.FoodProducts.Count(e => e.Id == id) > 0;
-        }
+        //private bool FoodProductExists(int id)
+        //{
+        //    return db.FoodProducts.Count(e => e.Id == id) > 0;
+        //}
     }
 }

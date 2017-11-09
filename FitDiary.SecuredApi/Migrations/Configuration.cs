@@ -3,6 +3,7 @@ using FitDiary.SecuredApi.Models.User;
 
 namespace FitDiary.SecuredApi.Migrations
 {
+    using FitDiary.SecuredApi.User.Models;
     using Models.Diet;
     using System;
     using System.Collections.Generic;
@@ -18,27 +19,27 @@ namespace FitDiary.SecuredApi.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //using (var manager = new ApplicationUserManager(new CustomUserStore(context)))
-            //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "User1",
-            //        Email = "test1@test.pl",
-            //        EmailConfirmed = true,
-            //        JoinDate = DateTime.Now.AddYears(-3)
-            //    };
-            //    await manager.CreateAsync(user, "Test123_");
+            using (var manager = new ApplicationUserManager(new CustomUserStore(context)))
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "User1",
+                    Email = "test1@test.pl",
+                    EmailConfirmed = true,
+                    JoinDate = DateTime.Now.AddYears(-3)
+                };
+                var y = manager.CreateAsync(user, "Test123_").Result;
 
-            //    user = new ApplicationUser
-            //    {
-            //        UserName = "User2",
-            //        Email = "test2@test.pl",
-            //        EmailConfirmed = true,
-            //        JoinDate = DateTime.Now.AddYears(-1)
-            //    };
+                user = new ApplicationUser
+                {
+                    UserName = "User2",
+                    Email = "test2@test.pl",
+                    EmailConfirmed = true,
+                    JoinDate = DateTime.Now.AddYears(-1)
+                };
 
-            //    await manager.CreateAsync(user, "Test123_");
-            //}
+                var x = manager.CreateAsync(user, "Test123_").Result;
+            }
             IList<FoodProductCategory> categories = new List<FoodProductCategory>();
 
             categories.Add(new FoodProductCategory

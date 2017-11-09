@@ -17,10 +17,16 @@ namespace FitDiary.SecuredApi.Diet.DAL
             this.context = context;
         }
 
-        public void DeleteFoodProduct(int foodProductId)
+        public async Task<FoodProduct> GetGetFoodProductByIDAsync(int foodProductId)
         {
-            var foodProduct = context.FoodProducts.Find(foodProductId);
+            return await context.FoodProducts.FindAsync(foodProductId);
+        }
+
+        public bool DeleteFoodProduct(FoodProduct foodProduct)
+        {
             context.FoodProducts.Remove(foodProduct);
+
+            return context.SaveChanges() > 0;
         }
 
         public async Task<IEnumerable<FoodProduct>> GetFoodProductsAsync()

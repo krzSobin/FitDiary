@@ -49,9 +49,9 @@ namespace FitDiary.SecuredApi.Services.User
                 UserBaseInfo = new UserDTO
                 {
                     Name = u.UserName,
-                    Birthday = u.Birthday,
+                   // Birthday = u.Birthday,
                     Email = u.Email,
-                    Height = u.HeightInCm
+                    //Height = u.HeightInCm
                 },
                 LastBodyMeasurement = new BodyMeasurementsDTO
                 {

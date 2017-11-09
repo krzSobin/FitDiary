@@ -1,5 +1,8 @@
 ﻿using FitDiary.Contracts.DTOs.User;
+using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Services.User;
+using FitDiary.SecuredApi.User.DAL;
+using FitDiary.SecuredApi.User.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,15 +15,26 @@ namespace FitDiary.SecuredApi.Controllers
     public class UserController : ApiController
     {
         private readonly UsersService _userSrv = new UsersService();
+        private readonly IUserRepository _userRepository;
+
+        public UserController()
+        {
+            _userRepository = new UserRepository(new ApplicationDbContext());
+        }
+
+        public UserController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         // GET: api/FoodProducts
         [Authorize]
         [HttpGet]
         [Route("")]
-        public async Task<UserDTO> GetUserDataAsync()
+        public async Task<ApplicationUser> GetUserDataAsync()
         {
-            //var userId = HttpContext.Current.User.Identity.GetUserId<int>();
-            var userData = await _userSrv.GetUserData(2);
+            var userId = HttpContext.Current.User.Identity.GetUserId<int>();
+            var userData = _userRepository.GetUserData(userId);
 
             return userData;
         }

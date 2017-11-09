@@ -16,6 +16,7 @@ using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Providers;
 using FitDiary.SecuredApi.Results;
 using FitDiary.SecuredApi.Models.User;
+using FitDiary.SecuredApi.User.Models;
 
 namespace FitDiary.SecuredApi.Controllers
 {
@@ -330,9 +331,9 @@ namespace FitDiary.SecuredApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, JoinDate = DateTime.Now };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {

@@ -11,7 +11,8 @@ namespace FitDiary.SecuredApi.Diet.DAL
     {
         Task<IEnumerable<FoodProduct>> GetFoodProductsAsync(FoodProductQueryParams queryParams);
         Task<IEnumerable<FoodProduct>> GetFoodProductsAsync();
-        void DeleteFoodProduct(int foodProductId);
+        Task<FoodProduct> GetGetFoodProductByIDAsync(int foodProductId);
+        bool DeleteFoodProduct(FoodProduct foodProduct);
         void Save();
     }
 }

@@ -3,6 +3,7 @@ using FitDiary.SecuredApi.Models.Diet;
 using System.Data.Entity;
 using FitDiary.SecuredApi.Models.Training;
 using FitDiary.SecuredApi.Models.User;
+using FitDiary.SecuredApi.User.Models;
 
 namespace FitDiary.SecuredApi.Models
 {
@@ -53,6 +54,7 @@ namespace FitDiary.SecuredApi.Models
         public DbSet<ProductInMeal> ProductsInMeal { get; set; }
         public DbSet<BodyMeasurements> BodyMeasurements { get; set; }
         public DbSet<BodyGoals> BodyGoals { get; set; }
+        public DbSet<UserData> UserData { get; set; }
 
         public DbSet<Excercise> Excercises { get; set; }
         public DbSet<ExcerciseSerie> ExcerciseSeries { get; set; }

@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Models.User;
+using FitDiary.SecuredApi.User.Models;
 
 namespace FitDiary.SecuredApi.Providers
 {
@@ -29,7 +30,7 @@ namespace FitDiary.SecuredApi.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            var user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
