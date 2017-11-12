@@ -1,5 +1,4 @@
-﻿using FitDiary.SecuredApi.Models.User;
-using FitDiary.SecuredApi.User.Models;
+﻿using FitDiary.SecuredApi.User.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

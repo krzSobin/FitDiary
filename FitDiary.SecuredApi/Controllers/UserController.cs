@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace FitDiary.SecuredApi.Controllers
 {

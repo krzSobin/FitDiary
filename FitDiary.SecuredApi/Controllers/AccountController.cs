@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -15,7 +14,6 @@ using Microsoft.Owin.Security.OAuth;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Providers;
 using FitDiary.SecuredApi.Results;
-using FitDiary.SecuredApi.Models.User;
 using FitDiary.SecuredApi.User.Models;
 
 namespace FitDiary.SecuredApi.Controllers

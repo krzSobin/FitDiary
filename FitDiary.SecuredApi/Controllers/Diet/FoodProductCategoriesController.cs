@@ -1,25 +1,36 @@
 ﻿using FitDiary.Contracts.DTOs.Diet.FoodProductCategories;
-using FitDiary.SecuredApi.Services.Diet;
+using FitDiary.SecuredApi.Diet.BLL.FoodProductCategories;
+using FitDiary.SecuredApi.Diet.DAL.FoodProductCategories;
+using FitDiary.SecuredApi.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
     [RoutePrefix("api/foodCategories")]
     public class FoodProductCategoriesController : ApiController
     {
-        private readonly FoodProductCategoriesService _categorySrv = new FoodProductCategoriesService();
+        private readonly FoodProductCategoriesService _foodProductCategoriesService;
+
+        public FoodProductCategoriesController()
+        {
+            var foodProductCategoryRepository = new FoodProductCategoryRepository(new ApplicationDbContext());
+            _foodProductCategoriesService = new FoodProductCategoriesService(foodProductCategoryRepository);
+        }
+
+        public FoodProductCategoriesController(IFoodProductCategoryRepository foodProductCategoryRepository)
+        {
+            _foodProductCategoriesService = new FoodProductCategoriesService(foodProductCategoryRepository);
+        }
 
         // GET: api/foodCategories
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<CategorySelectDTO>> GetCategoriesAsync()
+        [ResponseType(typeof(IEnumerable<CategorySelectDTO>))]
+        public IEnumerable<CategorySelectDTO> GetCategories()
         {
-            var meals = await _categorySrv.GetCategoriesAsync();
-
-            return meals;
+            return _foodProductCategoriesService.GetCategories();
         }
     }
 }

@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using FitDiary.SecuredApi.Models.Diet;
-using System.Threading.Tasks;
+using System.Data.Entity.Validation;
+using System.Data.Entity;
 
-namespace FitDiary.SecuredApi.Diet.DAL
+namespace FitDiary.SecuredApi.Diet.DAL.FoodProducts
 {
     public class FoodProductRepository : IFoodProductRepository
     {
@@ -17,9 +17,24 @@ namespace FitDiary.SecuredApi.Diet.DAL
             this.context = context;
         }
 
-        public async Task<FoodProduct> GetGetFoodProductByIDAsync(int foodProductId)
+        public IEnumerable<FoodProduct> GetFoodProducts()
         {
-            return await context.FoodProducts.FindAsync(foodProductId);
+            return context.FoodProducts.ToList();
+        }
+
+        public FoodProduct GetFoodProductByID(int foodProductId)
+        {
+            return context.FoodProducts.Find(foodProductId);
+        }
+
+        public FoodProduct InsertFoodProduct(FoodProduct foodProduct)
+        {
+            return context.FoodProducts.Add(foodProduct);
+        }
+
+        public void UpdateFoodProduct(FoodProduct foodProduct)
+        {
+            context.Entry(foodProduct).State = EntityState.Modified;
         }
 
         public bool DeleteFoodProduct(FoodProduct foodProduct)
@@ -29,12 +44,7 @@ namespace FitDiary.SecuredApi.Diet.DAL
             return context.SaveChanges() > 0;
         }
 
-        public async Task<IEnumerable<FoodProduct>> GetFoodProductsAsync()
-        {
-            return context.FoodProducts.ToList();
-        }
-
-        public async Task<IEnumerable<FoodProduct>> GetFoodProductsAsync(FoodProductQueryParams queryParams)
+        public IEnumerable<FoodProduct> GetFoodProducts(FoodProductQueryParams queryParams)
         {
             if (queryParams == null)
             {
@@ -54,9 +64,28 @@ namespace FitDiary.SecuredApi.Diet.DAL
             return productQuery.ToList();
         }
 
-        public void Save()
+        public bool Save()
         {
-            context.SaveChanges();
+            try
+            {
+                return context.SaveChanges() > 0;
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+            }
         }
 
         #region IDisposable Support

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace FitDiary.Contracts.DTOs.Diet
+namespace FitDiary.Contracts.DTOs.Diet.Meals
 {
     public class MealInsertOrUpdateDTO
     {

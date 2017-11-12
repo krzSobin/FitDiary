@@ -1,18 +1,13 @@
-﻿using AutoMapper;
-using FitDiary.Contracts.DTOs.Diet;
+﻿using FitDiary.Contracts.DTOs.Diet;
 using FitDiary.Contracts.DTOs.Diet.FoodProducts;
-using FitDiary.SecuredApi.Diet.DAL;
+using FitDiary.SecuredApi.Diet.BLL.FoodProducts;
+using FitDiary.SecuredApi.Diet.DAL.FoodProducts;
 using FitDiary.SecuredApi.Models;
 using FitDiary.SecuredApi.Models.Diet;
-using FitDiary.SecuredApi.Services.Diet;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
@@ -20,19 +15,17 @@ namespace FitDiary.SecuredApi.Controllers.Diet
     [RoutePrefix("api/foodProducts")]
     public class FoodProductsController : ApiController
     {
-        private readonly IFoodProductRepository _foodProductRepository;
-        private readonly FoodProductsService _foodProdSrv;
+        private readonly FoodProductsService _foodProductService;
 
         public FoodProductsController()
         {
-            _foodProductRepository = new FoodProductRepository(new ApplicationDbContext());
-            _foodProdSrv = new FoodProductsService(_foodProductRepository);
+            var foodProductRepository = new FoodProductRepository(new ApplicationDbContext());
+            _foodProductService = new FoodProductsService(foodProductRepository);
         }
 
         public FoodProductsController(IFoodProductRepository foodProductRepository)
         {
-            _foodProductRepository = foodProductRepository;
-            _foodProdSrv = new FoodProductsService(_foodProductRepository);
+            _foodProductService = new FoodProductsService(foodProductRepository);
         }
 
         // GET: api/FoodProducts
@@ -40,9 +33,9 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [HttpGet]
         [Route("")]
         [ResponseType(typeof(IEnumerable<FoodProductDTO>))]
-        public async Task<IEnumerable<FoodProductDTO>> GetFoodProductsAsync([FromUri] FoodProductQueryParams queryParams)
+        public IEnumerable<FoodProductDTO> GetFoodProducts([FromUri] FoodProductQueryParams queryParams)
         {
-            var products = await _foodProdSrv.GetFoodProductsAsync(queryParams);
+            var products = _foodProductService.GetFoodProducts(queryParams);
 
             return products;
         }
@@ -50,9 +43,9 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [HttpGet]
         [Route("{id:int}", Name = "GetFoodProductById")]
         [ResponseType(typeof(FoodProductDTO))]
-        public async Task<IHttpActionResult> GetFoodProduct(int id)
+        public IHttpActionResult GetFoodProduct(int id)
         {
-            var product = await _foodProdSrv.GetFoodProductAsync(id);
+            var product = _foodProductService.GetFoodProduct(id);
 
             if (product == null)
             {
@@ -65,8 +58,8 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // PUT: api/FoodProducts/5
         [HttpPut]
         [Route("{id:int}")]
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutFoodProduct(int id, ProductEditDTO foodProduct)
+        [ResponseType(typeof(UpdateFoodProductResultDTO))]
+        public async Task<IHttpActionResult> PutFoodProduct(int id, UpdateProductDTO foodProduct)
         {
             if (!ModelState.IsValid)
             {
@@ -77,9 +70,11 @@ namespace FitDiary.SecuredApi.Controllers.Diet
             {
                 return BadRequest();
             }
-            if (await _foodProdSrv.PutFoodProductAsync(foodProduct))
+
+            var result = _foodProductService.UpdateFoodProduct(foodProduct);
+            if (result.Updated)
             {
-                return Ok();
+                return Ok(result);
             }
 
             return StatusCode(HttpStatusCode.BadRequest);
@@ -88,43 +83,41 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // POST: api/FoodProducts
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(ProductInsertDTO))]
-        public async Task<IHttpActionResult> PostFoodProduct(ProductInsertDTO foodProduct)
+        [ResponseType(typeof(AddFoodProductResultDTO))]
+        public IHttpActionResult PostFoodProduct(ProductInsertDTO foodProduct)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var insertedId = await _foodProdSrv.PostFoodProductAsync(foodProduct);
+            var result = _foodProductService.PostFoodProduct(foodProduct);
+            if (result.Added)
+            {
+                return CreatedAtRoute("GetFoodProductById", new { id = result.FoodProduct.Id }, result);
+            }
 
-            return CreatedAtRoute("GetFoodProductById", new { id = insertedId }, foodProduct);
+            return BadRequest("Adding foodProduct error");
         }
 
         // DELETE: api/FoodProducts/5
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(FoodProductDTO))]
-        public async Task<IHttpActionResult> DeleteFoodProduct(int id)
+        [ResponseType(typeof(DeleteFoodProductResultDTO))]
+        public IHttpActionResult DeleteFoodProduct(int id)
         {
-
-            var foodProduct = await _foodProductRepository.GetGetFoodProductByIDAsync(id);//zmienic na check if exists
-            if (foodProduct == null)
+            var result = _foodProductService.DeleteFoodProduct(id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            if(_foodProductRepository.DeleteFoodProduct(foodProduct))
+            if (result.Deleted)
             {
-                return Ok(foodProduct);
+                return Ok(result);
             }
 
-            return BadRequest("Usuwanie nie powiodło sie");
+            return BadRequest("Delete foodProduct error");
         }
-
-        //private bool FoodProductExists(int id)
-        //{
-        //    return db.FoodProducts.Count(e => e.Id == id) > 0;
-        //}
     }
 }

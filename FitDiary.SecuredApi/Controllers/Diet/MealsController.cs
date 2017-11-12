@@ -1,19 +1,17 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Collections.Generic;
 using FitDiary.Contracts.DTOs.Diet;
 using System;
-using System.Web.Http.Cors;
-using FitDiary.SecuredApi.Models.Diet;
 using FitDiary.SecuredApi.Models;
-using FitDiary.SecuredApi.Services.Diet;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using FitDiary.SecuredApi.Diet.BLL.Meals;
+using FitDiary.SecuredApi.Diet.DAL.Meals;
+using FitDiary.Contracts.DTOs.Diet.Meals;
+using FitDiary.SecuredApi.Diet.DAL.ProductsInMeal;
+using FitDiary.SecuredApi.Diet.DAL.FoodProducts;
 
 namespace FitDiary.SecuredApi.Controllers.Diet
 {
@@ -21,39 +19,43 @@ namespace FitDiary.SecuredApi.Controllers.Diet
     [RoutePrefix("api/meals")]
     public class MealsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private readonly MealsService _mealsSrv = new MealsService();
+        private readonly MealsService _mealsService;
+
+        public MealsController()
+        {
+            var context = new ApplicationDbContext();
+
+            var mealRepository = new MealRepository(context);
+            var foodProductRepository = new FoodProductRepository(context);
+            var productInMealRepository = new ProductInMealRepository(context);
+
+            _mealsService = new MealsService(mealRepository, foodProductRepository, productInMealRepository);
+        }
+
+        public MealsController(IMealRepository mealRepository, IFoodProductRepository foodProductRepository, IProductInMealRepository productInMealRepository)
+        {
+            _mealsService = new MealsService(mealRepository, foodProductRepository, productInMealRepository);
+        }
 
         // GET: api/Meals
         [HttpGet]
         [Route("")]
-        [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
-        public async Task<IHttpActionResult> GetMealsAsync()
+        [ResponseType(typeof(IEnumerable<MealsDailyDTO>))]
+        public IHttpActionResult GetMeals()
         {
-            var userId = HttpContext.Current.User.Identity.GetUserId();
-            var meals = await _mealsSrv.GetMealsAsync(userId);
+            var userId = HttpContext.Current.User.Identity.GetUserId<int>();
+            var meals = _mealsService.GetMeals(userId);
 
             return Ok(meals);
         }
-
-        // GET: api/Meals
-        [HttpGet]
-        [Route("zmienic")]
-        [ResponseType(typeof(IEnumerable<DietDayDTO>))]
-        public async Task<IHttpActionResult> GetMealsPerDaysAsync()//TODO routing + parametry
-        {
-            var result = await _mealsSrv.GetMealsInDaysRangeAsync(new DateTime(2009, 12, 12), DateTime.UtcNow);
-            return Ok(result);
-        }
-
 
         // GET: api/Meals/5
         [HttpGet]
         [Route("{id:int}", Name = "GetMealById")]
         [ResponseType(typeof(MealForListingDTO))]
-        public async Task<IHttpActionResult> GetMealAsync(int id)
+        public IHttpActionResult GetMeal(int id)
         {
-            var result = await _mealsSrv.GetMealByIdAsync(id);
+            var result = _mealsService.GetMealById(id);
 
             if (result == null)
             {
@@ -66,17 +68,21 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         [HttpGet]
         [Route("{date:datetime}", Name = "GetMealByDate")]
         [ResponseType(typeof(IEnumerable<MealForListingDTO>))]
-        public async Task<IHttpActionResult> GetMealAsync(DateTime date)
+        public IHttpActionResult GetMeals(DateTime date)
         {
             var userId = HttpContext.Current.User.Identity.GetUserId<int>();
-            var result = await _mealsSrv.GetMealsByDAyAsync(date, userId);
+            var result = _mealsService.GetMealsByDate(date, userId);
+            if (result == null)
+                return NotFound();
 
             return Ok(result);
         }
 
         // PUT: api/Meals/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutMeal(int id, Meal meal)
+        [HttpPut]
+        [Route("id:int")]
+        [ResponseType(typeof(UpdateMealResultDTO))]
+        public IHttpActionResult PutMeal(int id, UpdateMealDTO meal)
         {
             if (!ModelState.IsValid)
             {
@@ -88,23 +94,10 @@ namespace FitDiary.SecuredApi.Controllers.Diet
                 return BadRequest();
             }
 
-            db.Entry(meal).State = EntityState.Modified;
+            var updateResult = _mealsService.UpdateMeal(meal);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MealExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (updateResult.Updated)
+                return Ok(updateResult);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -112,8 +105,8 @@ namespace FitDiary.SecuredApi.Controllers.Diet
         // POST: api/Meals
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(Meal))]
-        public async Task<IHttpActionResult> PostMeal(MealInsertOrUpdateDTO meal)
+        [ResponseType(typeof(AddMealResultDTO))]
+        public IHttpActionResult PostMeal(MealInsertOrUpdateDTO meal)
         {
             if (!ModelState.IsValid)
             {
@@ -121,40 +114,39 @@ namespace FitDiary.SecuredApi.Controllers.Diet
             }
             
             meal.UserId = HttpContext.Current.User.Identity.GetUserId<int>();
-            var result = await _mealsSrv.AddMeal(meal);
-
-            return CreatedAtRoute("GetMealById", new { id = result }, meal);
+            var result = _mealsService.AddMeal(meal);
+            if (!result.Added)
+            {
+                return BadRequest("Adding meal error. Try again.");
+            }
+            
+            return CreatedAtRoute("GetMealById", new { id = result.Meal.Id }, result.Meal);
         }
 
         // DELETE: api/Meals/5
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(Meal))]
-        public async Task<IHttpActionResult> DeleteMeal(int id)
+        [ResponseType(typeof(DeleteMealResultDTO))]
+        public IHttpActionResult DeleteMeal(int id)
         {
-            var meal = await _mealsSrv.GetMealByIdAsync(id);
+            var meal = _mealsService.GetMealById(id);
             if (meal == null)
             {
                 return NotFound();
             }
 
-            var result = await _mealsSrv.DeleteMeal(id);
+            var result = _mealsService.DeleteMeal(id);
 
-            return Ok(meal);
+            return Ok(result);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                
             }
             base.Dispose(disposing);
-        }
-
-        private bool MealExists(int id)
-        {
-            return db.Meals.Count(e => e.Id == id) > 0;
         }
     }
 }

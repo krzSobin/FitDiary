@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FitDiary.Contracts.DTOs.Diet.FoodProducts
+﻿namespace FitDiary.Contracts.DTOs.Diet.FoodProducts
 {
-    public class ProductEditDTO
+    public class UpdateProductDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

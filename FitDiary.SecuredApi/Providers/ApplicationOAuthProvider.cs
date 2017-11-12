@@ -6,9 +6,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using FitDiary.SecuredApi.Models;
-using FitDiary.SecuredApi.Models.User;
-using FitDiary.SecuredApi.User.Models;
 
 namespace FitDiary.SecuredApi.Providers
 {

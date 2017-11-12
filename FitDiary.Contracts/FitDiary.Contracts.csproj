@@ -41,15 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\Diet\FoodProducts\AddFoodProductResultDTO.cs" />
+    <Compile Include="DTOs\Diet\FoodProducts\DeleteFoodProductResultDTO.cs" />
+    <Compile Include="DTOs\Diet\FoodProducts\UpdateFoodProductResultDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\AddMealResultDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\DeleteMealResultDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\MealsDailyDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\ProductInMealForUpdateMealDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\UpdateMealDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\UpdateMealResultDTO.cs" />
     <Compile Include="DTOs\User\BodyGoalsDTO.cs" />
     <Compile Include="DTOs\Diet\DietDayDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategories\CategoryInsertDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductCategories\CategorySelectDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProductDTO.cs" />
-    <Compile Include="DTOs\Diet\FoodProducts\ProductEditDTO.cs" />
+    <Compile Include="DTOs\Diet\FoodProducts\UpdateProductDTO.cs" />
     <Compile Include="DTOs\Diet\FoodProducts\ProductInsertDTO.cs" />
     <Compile Include="DTOs\Diet\MealForListingDTO.cs" />
-    <Compile Include="DTOs\Diet\MealInsertDTO.cs" />
+    <Compile Include="DTOs\Diet\Meals\MealInsertOrUpdateDTO.cs" />
     <Compile Include="DTOs\Diet\ProductInMealDTO.cs" />
     <Compile Include="DTOs\Diet\ProductInMealInsertDTO.cs" />
     <Compile Include="DTOs\Diet\ShortProductInMealDTO.cs" />

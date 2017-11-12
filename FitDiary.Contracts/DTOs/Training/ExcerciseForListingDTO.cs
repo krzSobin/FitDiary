@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FitDiary.Contracts.DTOs.Training
+﻿namespace FitDiary.Contracts.DTOs.Training
 {
     public class ExcerciseForListingDTO
     {

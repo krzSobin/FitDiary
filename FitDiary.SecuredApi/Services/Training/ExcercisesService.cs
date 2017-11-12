@@ -1,15 +1,12 @@
 ﻿using Dapper;
 using FitDiary.Contracts.DTOs.Training;
 using FitDiary.SecuredApi.Models.Training;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace FitDiary.SecuredApi.Services.Training
 {

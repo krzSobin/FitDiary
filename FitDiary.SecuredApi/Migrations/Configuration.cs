@@ -1,5 +1,4 @@
 using FitDiary.SecuredApi.Models;
-using FitDiary.SecuredApi.Models.User;
 
 namespace FitDiary.SecuredApi.Migrations
 {
@@ -86,7 +85,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "Wata cukrowa",
                 ProteinsPer100g = 1,
                 FatsPer100g = 0,
-                CarboPer100g = 98,
+                CarbsPer100g = 98,
                 SugarPer100g = 98,
                 CategoryId = 1,
                 KCalPer100g = 400
@@ -97,7 +96,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "Pierœ z indyka",
                 ProteinsPer100g = 23,
                 FatsPer100g = 7,
-                CarboPer100g = 6,
+                CarbsPer100g = 6,
                 SugarPer100g = 2,
                 CategoryId = 1,
                 KCalPer100g = 370
@@ -108,7 +107,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "Ry¿ bia³y",
                 ProteinsPer100g = 5,
                 FatsPer100g = 7,
-                CarboPer100g = 53,
+                CarbsPer100g = 53,
                 SugarPer100g = 12,
                 CategoryId = 5,
                 KCalPer100g = 334
@@ -119,7 +118,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "Ry¿ br¹zowy",
                 ProteinsPer100g = 7,
                 FatsPer100g = 4,
-                CarboPer100g = 63,
+                CarbsPer100g = 63,
                 SugarPer100g = 10,
                 CategoryId = 5,
                 KCalPer100g = 310
@@ -130,7 +129,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "£osoœ",
                 ProteinsPer100g = 22,
                 FatsPer100g = 14,
-                CarboPer100g = 13,
+                CarbsPer100g = 13,
                 SugarPer100g = 2,
                 CategoryId = 2,
                 KCalPer100g = 390
@@ -141,7 +140,7 @@ namespace FitDiary.SecuredApi.Migrations
                 Name = "Tuñczyk",
                 ProteinsPer100g = 24,
                 FatsPer100g = 12,
-                CarboPer100g = 11,
+                CarbsPer100g = 11,
                 SugarPer100g = 4,
                 CategoryId = 2,
                 KCalPer100g = 380
